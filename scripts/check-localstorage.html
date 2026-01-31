@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><body>
+<h2>LocalStorage Diagnostic</h2>
+<pre id="out"></pre>
+<script>
+const out = document.getElementById('out');
+let found = false;
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const val = localStorage.getItem(key);
+  if (key.startsWith('csg_')) {
+    out.textContent += `\n=== ${key} (${val.length} chars) ===\n`;
+    if (val.toLowerCase().includes('poop')) {
+      out.textContent += '*** FOUND "poop" IN THIS KEY ***\n';
+      out.textContent += val.substring(0, 2000) + '\n';
+      found = true;
+    } else {
+      out.textContent += val.substring(0, 200) + (val.length > 200 ? '...' : '') + '\n';
+    }
+  }
+}
+if (!found) out.textContent += '\n\n"poop" not found in any csg_ localStorage key.\nChecking sessionStorage...\n';
+for (let i = 0; i < sessionStorage.length; i++) {
+  const key = sessionStorage.key(i);
+  const val = sessionStorage.getItem(key);
+  if (val.toLowerCase().includes('poop')) {
+    out.textContent += `\n*** FOUND "poop" in sessionStorage key: ${key} ***\n`;
+    out.textContent += val.substring(0, 2000) + '\n';
+    found = true;
+  }
+}
+if (!found) out.textContent += '"poop" not found in any storage.\n';
+</script>
+</body></html>

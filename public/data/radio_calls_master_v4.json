@@ -1,0 +1,4759 @@
+{
+  "version": "4.0",
+  "description": "Comm Sheet Generator - Master Radio Call Database",
+  "comm_sheet_type": "vfr_nontowered (MVP)",
+  "calls": [
+    {
+      "call_id": "STARTUP_001",
+      "block": "startup",
+      "group": "awos_check",
+      "sequence": 1,
+      "comm_type": "note",
+      "text": "Check AWOS/ASOS/ATIS",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_T001",
+      "block": "startup",
+      "group": "atis",
+      "sequence": 1.5,
+      "comm_type": "ics",
+      "text": "ATIS: Information [A-Z], Wind [###/##], Altimeter [##.##], Landing/Departing runway [##]",
+      "applies_to": [
+        "vfr_towered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-13",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_002",
+      "block": "startup",
+      "group": "radio_check",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} radio check, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_003",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, loud and clear.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_004",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, lima charlie.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_005",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, broken but readable.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_006",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, broken and unreadable.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_007",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, unreadable.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_007a",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 7.1,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, have you five by five.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_007b",
+      "block": "startup",
+      "group": "radio_check_response",
+      "sequence": 7.2,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Abbr}}, have you loud and clear.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "STARTUP_008",
+      "block": "startup",
+      "group": "pre_start",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "Clear prop!",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_001",
+      "block": "clearance_delivery",
+      "group": "vfr_departure",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Clearance, {{Call_Sign_Full}}, VFR to {{Stop2_Airport_Name}}, request.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_002",
+      "block": "clearance_delivery",
+      "group": "vfr_departure",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Clearance, {{Call_Sign_Full}}, at [Location/FBO], VFR departure to the [North/South/East/West], request flight following to {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_003",
+      "block": "clearance_delivery",
+      "group": "vfr_departure",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Clearance, {{Call_Sign_Full}}, VFR remaining in the pattern, request.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_004",
+      "block": "clearance_delivery",
+      "group": "clearance_response",
+      "sequence": 4,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, squawk [####], departure frequency [###.##], runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_005",
+      "block": "clearance_delivery",
+      "group": "clearance_readback",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "Squawk [####], departure [###.##], runway [##], {{Call_Sign_Full}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_006",
+      "block": "clearance_delivery",
+      "group": "contact_ground",
+      "sequence": 6,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact ground [###.##] when ready to taxi.",
+      "applies_to": [
+        "vfr_towered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_007",
+      "block": "clearance_delivery",
+      "group": "contact_ground",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "Ground [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_T_001",
+      "block": "clearance_delivery",
+      "group": "ifr_request",
+      "sequence": 7.5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Clearance, {{Call_Sign_Full}}, IFR to {{Stop2_Airport_Name}}, ready to copy.",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-5",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_001",
+      "block": "clearance_delivery",
+      "group": "ground_attempt",
+      "sequence": 10,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, on the ground at {{Stop1_Airport_Name}}, IFR to {{Stop2_Airport_Name}}, ready to copy.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null,
+      "notes": "May not make contact on ground at all locations - terrain/antenna limitations"
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_002",
+      "block": "clearance_delivery",
+      "group": "ground_attempt",
+      "sequence": 11,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, [Center/Approach], standby for clearance.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_003",
+      "block": "clearance_delivery",
+      "group": "fss_relay",
+      "sequence": 12,
+      "comm_type": "radio",
+      "text": "[FSS Name] Radio, {{Call_Sign_Full}}, on [###.##], request IFR clearance relay to {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null,
+      "notes": "FSS relay via 122.2 or RCO frequency - used in remote areas"
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_004",
+      "block": "clearance_delivery",
+      "group": "fss_relay",
+      "sequence": 13,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, [FSS Name] Radio, standby for clearance relay.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_005",
+      "block": "clearance_delivery",
+      "group": "gco",
+      "sequence": 14,
+      "comm_type": "ics",
+      "text": "GCO: Key mic 4 times on [GCO Frequency] to contact ATC, 6 times for FSS.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null,
+      "notes": "Ground Communication Outlet - some airports only"
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_006",
+      "block": "clearance_delivery",
+      "group": "clearance_delivery",
+      "sequence": 15,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, cleared to {{Stop2_Airport_Name}} airport via [Route], [Departure Procedure], climb and maintain [Altitude], expect [Final Altitude] [Time] minutes after departure, departure frequency [###.##], squawk [####].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-5",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_007",
+      "block": "clearance_delivery",
+      "group": "clearance_readback",
+      "sequence": 16,
+      "comm_type": "radio",
+      "text": "Cleared to {{Stop2_Airport_Name}} via [Route], [Departure Procedure], climb and maintain [Altitude], expect [Final Altitude] [Time] minutes after departure, departure [###.##], squawk [####], {{Call_Sign_Full}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-5",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_008",
+      "block": "clearance_delivery",
+      "group": "void_time",
+      "sequence": 17,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, clearance void if not off by [Time] Zulu. If not off by [Time] Zulu, advise [Facility] no later than [Time] Zulu of intentions. Time now [Current Time] Zulu.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_009",
+      "block": "clearance_delivery",
+      "group": "void_time_readback",
+      "sequence": 18,
+      "comm_type": "radio",
+      "text": "Clearance void if not off by [Time] Zulu, advise [Facility] no later than [Time] Zulu if not off, {{Call_Sign_Full}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_010",
+      "block": "clearance_delivery",
+      "group": "hold_for_release",
+      "sequence": 19,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, hold for release, expect release [Time] Zulu.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_011",
+      "block": "clearance_delivery",
+      "group": "hold_for_release_readback",
+      "sequence": 20,
+      "comm_type": "radio",
+      "text": "Holding for release, expect [Time] Zulu, {{Call_Sign_Full}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_012",
+      "block": "clearance_delivery",
+      "group": "released",
+      "sequence": 21,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, released for departure.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_013",
+      "block": "clearance_delivery",
+      "group": "released_readback",
+      "sequence": 22,
+      "comm_type": "radio",
+      "text": "Released for departure, {{Call_Sign_Full}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLEARANCE_IFR_NT_014",
+      "block": "clearance_delivery",
+      "group": "depart_vfr",
+      "sequence": 23,
+      "comm_type": "ics",
+      "text": "Option: Depart VFR, pick up IFR clearance in the air.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null,
+      "notes": "Common workaround when unable to reach ATC on ground"
+    },
+    {
+      "call_id": "GROUND_OUT_001",
+      "block": "taxi_out",
+      "group": "initial_call",
+      "sequence": 0.5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Full}}, at [Location/FBO], taxi for VFR departure [North/South/East/West], with information [A-Z].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_002",
+      "block": "taxi_out",
+      "group": "initial_call",
+      "sequence": 0.6,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Full}}, at [Location/FBO], taxi for closed traffic, with information [A-Z].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_003",
+      "block": "taxi_out",
+      "group": "taxi_clearance",
+      "sequence": 0.7,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], taxi via [Taxiway Route].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_004",
+      "block": "taxi_out",
+      "group": "taxi_readback",
+      "sequence": 0.8,
+      "comm_type": "radio",
+      "text": "Runway [##], taxi via [Taxiway Route], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_005",
+      "block": "taxi_out",
+      "group": "hold_short",
+      "sequence": 0.9,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, hold short of runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_006",
+      "block": "taxi_out",
+      "group": "hold_short_readback",
+      "sequence": 0.91,
+      "comm_type": "radio",
+      "text": "Hold short runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_007",
+      "block": "taxi_out",
+      "group": "cross_runway",
+      "sequence": 0.92,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cross runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_008",
+      "block": "taxi_out",
+      "group": "cross_runway_readback",
+      "sequence": 0.93,
+      "comm_type": "radio",
+      "text": "Cross runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_009",
+      "block": "taxi_out",
+      "group": "progressive_taxi",
+      "sequence": 0.94,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Abbr}}, request progressive taxi.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_010",
+      "block": "taxi_out",
+      "group": "follow_me",
+      "sequence": 0.95,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Abbr}}, request follow-me.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_011",
+      "block": "taxi_out",
+      "group": "runway_incursion",
+      "sequence": 0.96,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Abbr}}, confirm hold short runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_012",
+      "block": "taxi_out",
+      "group": "runway_incursion",
+      "sequence": 0.97,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Ground, {{Call_Sign_Abbr}}, verify cleared to cross runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_013",
+      "block": "taxi_out",
+      "group": "contact_tower",
+      "sequence": 0.98,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact tower [###.##] when ready.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_OUT_014",
+      "block": "taxi_out",
+      "group": "contact_tower_ack",
+      "sequence": 0.99,
+      "comm_type": "radio",
+      "text": "Tower [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-18",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_001",
+      "block": "taxi_out",
+      "group": "taxi_standard",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} taxiing to runway [##], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_002",
+      "block": "taxi_out",
+      "group": "taxi_detailed",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} taxiing to runway [##] via [Taxiway], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_003",
+      "block": "taxi_out",
+      "group": "runway_crossing",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} crossing runway [##] at [Taxiway], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_004",
+      "block": "taxi_out",
+      "group": "back_taxi",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} back-taxiing runway [##] for departure, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_005",
+      "block": "taxi_out",
+      "group": "hold_short",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} holding short runway [##] at [Taxiway] for [Landing Traffic], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_OUT_006",
+      "block": "taxi_out",
+      "group": "return_to_ramp",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} taxiing back to ramp, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "RUNUP_IFR_001",
+      "block": "taxi_out",
+      "group": "briefs",
+      "sequence": 10.5,
+      "comm_type": "brief",
+      "text": "IFR/IMC Loss of Power/Abort Brief:\nBefore rotation:\nAfter rotation, in IMC, below ___ ft:\nAfter rotation, in IMC, above ___ ft:\nIf VMC below, break out and:\nIf IMC throughout, squawk 7700, declare emergency, intentions:\nDeparture procedure obstacles:",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "RUNUP_IFR_002",
+      "block": "runup",
+      "group": "briefs",
+      "sequence": 0.6,
+      "comm_type": "brief",
+      "text": "IFR Departure Brief:\nDeparture runway:\nDeparture procedure:\nInitial heading/course:\nClimb altitude:\nExpected final altitude:\nFirst fix/waypoint:\nMissed approach at departure (if applicable):",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "RUNUP_001",
+      "block": "taxi_out",
+      "group": "briefs",
+      "sequence": 11,
+      "comm_type": "brief",
+      "text": "Loss of Power/Abort Brief:\nBefore rotation:\nAfter rotation, below ___ ft, runway remaining:\nAfter rotation, below ___ ft, no runway:\nAbove ___ ft, return to runway:\nObstacles at departure end:",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "RUNUP_002",
+      "block": "taxi_out",
+      "group": "briefs",
+      "sequence": 12,
+      "comm_type": "brief",
+      "text": "Departure/Passenger Brief\nDeparture runway:\nInitial heading:\nFirst turn:\nClimb altitude:\nDeparture frequency:\nRoute:\nPassenger brief:",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "RUNUP_003",
+      "block": "taxi_out",
+      "group": "status",
+      "sequence": 15,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} run-up complete, holding short runway [##], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_001",
+      "block": "takeoff",
+      "group": "ready_call",
+      "sequence": 0.5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Tower, {{Call_Sign_Abbr}}, holding short runway [##], ready for departure.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_002",
+      "block": "takeoff",
+      "group": "ready_call_direction",
+      "sequence": 0.51,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Tower, {{Call_Sign_Abbr}}, holding short runway [##], ready for [North/South/East/West] departure.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_003",
+      "block": "takeoff",
+      "group": "line_up_wait",
+      "sequence": 0.52,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], line up and wait.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_004",
+      "block": "takeoff",
+      "group": "line_up_wait_readback",
+      "sequence": 0.53,
+      "comm_type": "radio",
+      "text": "Line up and wait runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_005",
+      "block": "takeoff",
+      "group": "cleared_takeoff",
+      "sequence": 0.54,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared for takeoff.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_006",
+      "block": "takeoff",
+      "group": "cleared_takeoff_readback",
+      "sequence": 0.55,
+      "comm_type": "radio",
+      "text": "Cleared for takeoff runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_007",
+      "block": "takeoff",
+      "group": "cleared_takeoff_direction",
+      "sequence": 0.56,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared for takeoff, fly runway heading.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_008",
+      "block": "takeoff",
+      "group": "cleared_takeoff_direction_readback",
+      "sequence": 0.57,
+      "comm_type": "radio",
+      "text": "Cleared for takeoff runway [##], fly runway heading, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_009",
+      "block": "takeoff",
+      "group": "immediate_takeoff",
+      "sequence": 0.58,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared for immediate takeoff.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_010",
+      "block": "takeoff",
+      "group": "immediate_takeoff_accept",
+      "sequence": 0.59,
+      "comm_type": "radio",
+      "text": "Cleared immediate takeoff runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_011",
+      "block": "takeoff",
+      "group": "immediate_takeoff_unable",
+      "sequence": 0.6,
+      "comm_type": "radio",
+      "text": "Unable immediate, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_012",
+      "block": "takeoff",
+      "group": "intersection_departure",
+      "sequence": 0.61,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Tower, {{Call_Sign_Abbr}}, request intersection departure runway [##] at [Taxiway].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_013",
+      "block": "takeoff",
+      "group": "intersection_departure_cleared",
+      "sequence": 0.62,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##] at [Taxiway], cleared for takeoff, [Distance] feet remaining.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_014",
+      "block": "takeoff",
+      "group": "intersection_departure_readback",
+      "sequence": 0.63,
+      "comm_type": "radio",
+      "text": "Cleared for takeoff runway [##] at [Taxiway], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_015",
+      "block": "takeoff",
+      "group": "delay_request",
+      "sequence": 0.64,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Tower, {{Call_Sign_Abbr}}, request delay, [Reason].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_016",
+      "block": "takeoff",
+      "group": "delay_approved",
+      "sequence": 0.65,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, hold your position, advise when ready.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_017",
+      "block": "takeoff",
+      "group": "delay_ack",
+      "sequence": 0.66,
+      "comm_type": "radio",
+      "text": "Holding, will advise, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_018",
+      "block": "takeoff",
+      "group": "cancel_takeoff",
+      "sequence": 0.67,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cancel takeoff clearance, hold your position.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_019",
+      "block": "takeoff",
+      "group": "cancel_takeoff_ack",
+      "sequence": 0.68,
+      "comm_type": "radio",
+      "text": "Canceling takeoff, holding position, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_020",
+      "block": "takeoff",
+      "group": "abort_takeoff",
+      "sequence": 0.69,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Tower, {{Call_Sign_Abbr}}, aborting takeoff.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_021",
+      "block": "takeoff",
+      "group": "expedite",
+      "sequence": 0.7,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, expedite departure, traffic on [Distance] mile final.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_022",
+      "block": "takeoff",
+      "group": "expedite_ack",
+      "sequence": 0.71,
+      "comm_type": "radio",
+      "text": "Expediting, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-10",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_023",
+      "block": "takeoff",
+      "group": "wake_turbulence",
+      "sequence": 0.72,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, caution wake turbulence, departing [Type Aircraft].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-4-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "TOWER_DEP_024",
+      "block": "takeoff",
+      "group": "wake_turbulence_ack",
+      "sequence": 0.73,
+      "comm_type": "radio",
+      "text": "Caution wake turbulence, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-4-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_001",
+      "block": "takeoff",
+      "group": "departure_straight",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], straight out, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_002",
+      "block": "takeoff",
+      "group": "departure_45",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], 45 to the [North/South/East/West], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_003",
+      "block": "takeoff",
+      "group": "departure_crosswind",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], [left/right] crosswind departure, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_004",
+      "block": "takeoff",
+      "group": "departure_downwind",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], downwind departure to the [North/South/East/West], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_005",
+      "block": "takeoff",
+      "group": "departure_midfield",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##] from intersection [Taxiway], [North/South/East/West] departure, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_006",
+      "block": "takeoff",
+      "group": "closed_traffic",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], remaining in the pattern, closed traffic, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_007",
+      "block": "takeoff",
+      "group": "stop_and_go",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##] for stop and go, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAKEOFF_IFR_NT_001",
+      "block": "takeoff",
+      "group": "ifr_departure",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing runway [##], IFR to {{Stop2_Airport_Name}}, {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_001",
+      "block": "departure",
+      "group": "departing_pattern",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} departing the pattern to the [North/South/East/West], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_002",
+      "block": "departure",
+      "group": "departing_pattern",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Traffic}}, {{Call_Sign_Abbr}} clear of the pattern to the [North/South/East/West], {{Stop1_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T001",
+      "block": "departure",
+      "group": "frequency_change",
+      "sequence": 3,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact departure [###.##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T002",
+      "block": "departure",
+      "group": "frequency_change_ack",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "Departure [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T003",
+      "block": "departure",
+      "group": "departure_checkin",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Departure, {{Call_Sign_Full}}, [Altitude], runway [##] departure.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T004",
+      "block": "departure",
+      "group": "departure_checkin_with_you",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Stop1_Airport_Name}} Departure, {{Call_Sign_Abbr}}, with you [Altitude].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T005",
+      "block": "departure",
+      "group": "freq_change_approved",
+      "sequence": 7,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, frequency change approved, squawk VFR.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_T006",
+      "block": "departure",
+      "group": "freq_change_approved_ack",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "Squawk VFR, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-14",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_IFR_001",
+      "block": "departure",
+      "group": "airborne_checkin",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, airborne {{Stop1_Airport_Name}}, runway [##], [Altitude], climbing [Assigned Altitude].",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_IFR_002",
+      "block": "departure",
+      "group": "airborne_checkin",
+      "sequence": 10,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, radar contact, climb and maintain [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_IFR_003",
+      "block": "departure",
+      "group": "airborne_checkin_ack",
+      "sequence": 11,
+      "comm_type": "radio",
+      "text": "Climb and maintain [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null
+    },
+    {
+      "call_id": "DEPARTURE_IFR_004",
+      "block": "departure",
+      "group": "popup_ifr",
+      "sequence": 12,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, [Position], [Altitude], request IFR clearance to {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-2-6",
+      "reference_url": null,
+      "notes": "Pop-up IFR - VFR pilot needs clearance due to weather"
+    },
+    {
+      "call_id": "CLIMBOUT_001",
+      "block": "climbout",
+      "group": "placeholder",
+      "sequence": 1,
+      "comm_type": "ics",
+      "text": "[No standard calls for VFR non-towered climbout]",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_001",
+      "block": "climbout",
+      "group": "climb_reports",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Abbr}}, climbing through [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_002",
+      "block": "climbout",
+      "group": "climb_reports",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Abbr}}, level [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_003",
+      "block": "climbout",
+      "group": "climb_clearance",
+      "sequence": 4,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, climb and maintain [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_004",
+      "block": "climbout",
+      "group": "climb_clearance_readback",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "Climb and maintain [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_005",
+      "block": "climbout",
+      "group": "handoff",
+      "sequence": 6,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact [Center] on [###.##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_006",
+      "block": "climbout",
+      "group": "handoff_ack",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "[Center] [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "CLIMBOUT_IFR_007",
+      "block": "climbout",
+      "group": "center_checkin",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Full}}, climbing through [Altitude] for [Assigned Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_001",
+      "block": "enroute",
+      "group": "ff_cold_call",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "[Center] Approach, {{Call_Sign_Full}}, VFR request.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_002",
+      "block": "enroute",
+      "group": "ff_cold_call_response",
+      "sequence": 2,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, [Center] Approach, say request.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_003",
+      "block": "enroute",
+      "group": "ff_request",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Call_Sign_Full}} is [Type Aircraft], [Miles] miles [North/South/East/West] of {{Stop1_Airport_Name}}, [Altitude], request flight following to {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_004",
+      "block": "enroute",
+      "group": "ff_squawk_assign",
+      "sequence": 4,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, squawk [####], maintain VFR.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_005",
+      "block": "enroute",
+      "group": "ff_squawk_readback",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "Squawk [####], maintain VFR, {{Call_Sign_Full}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_006",
+      "block": "enroute",
+      "group": "ff_radar_contact",
+      "sequence": 6,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Full}}, radar contact [Miles] miles [North/South/East/West] of {{Stop1_Airport_Name}}, altimeter [##.##].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_007",
+      "block": "enroute",
+      "group": "ff_radar_ack",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "Altimeter [##.##], {{Call_Sign_Full}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_008",
+      "block": "enroute",
+      "group": "traffic_alert",
+      "sequence": 8,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, traffic [Clock Position] o'clock, [Miles] miles, [North/South/East/West] bound, [Type Aircraft], [Altitude].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_009",
+      "block": "enroute",
+      "group": "traffic_look",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "Looking for traffic, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_010",
+      "block": "enroute",
+      "group": "traffic_insight",
+      "sequence": 10,
+      "comm_type": "radio",
+      "text": "Traffic in sight, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_011",
+      "block": "enroute",
+      "group": "traffic_negative",
+      "sequence": 11,
+      "comm_type": "radio",
+      "text": "Negative contact, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_012",
+      "block": "enroute",
+      "group": "traffic_vector",
+      "sequence": 12,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, turn [left/right] heading [Heading], vector for traffic.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_013",
+      "block": "enroute",
+      "group": "traffic_vector_ack",
+      "sequence": 13,
+      "comm_type": "radio",
+      "text": "Turning [left/right] heading [Heading], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_014",
+      "block": "enroute",
+      "group": "traffic_clear",
+      "sequence": 14,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, traffic no longer a factor, resume own navigation.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_015",
+      "block": "enroute",
+      "group": "handoff",
+      "sequence": 15,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact [Next Center] Approach on [###.##].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_016",
+      "block": "enroute",
+      "group": "handoff_ack",
+      "sequence": 16,
+      "comm_type": "radio",
+      "text": "Going to [###.##], good day, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_017",
+      "block": "enroute",
+      "group": "handoff_checkin",
+      "sequence": 17,
+      "comm_type": "radio",
+      "text": "[Next Center] Approach, {{Call_Sign_Full}}, level [Altitude].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_018",
+      "block": "enroute",
+      "group": "pirep",
+      "sequence": 18,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, pilot report. [Location], [Time], [Altitude], [Type Aircraft]. [Sky Cover], [Visibility], Temp [Temp], Wind [###/##], [Turbulence/Icing].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-1-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_019",
+      "block": "enroute",
+      "group": "emergency_mayday",
+      "sequence": 19,
+      "comm_type": "radio",
+      "text": "Mayday, Mayday, Mayday. [Center], {{Call_Sign_Full}} declaring an emergency. [Nature of Emergency]. [Location], [Altitude]. [Souls on Board], [Fuel in Time]. Intentions [Intentions].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_020",
+      "block": "enroute",
+      "group": "emergency_declaring",
+      "sequence": 20,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Full}} declaring an emergency. [Nature of Emergency]. [Location], [Altitude]. [Souls on Board], [Fuel in Time]. Intentions [Intentions].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_021",
+      "block": "enroute",
+      "group": "emergency_pan",
+      "sequence": 21,
+      "comm_type": "radio",
+      "text": "Pan-Pan, Pan-Pan, Pan-Pan. [Center], {{Call_Sign_Full}} has [Nature of Urgency], request [Priority Handling/Diversion].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-3-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_022",
+      "block": "enroute",
+      "group": "ff_terminate_pilot",
+      "sequence": 22,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, airport in sight, cancel flight following.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_023",
+      "block": "enroute",
+      "group": "ff_terminate_pilot_blind",
+      "sequence": 23,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, cancel flight following.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_024",
+      "block": "enroute",
+      "group": "ff_terminate_atc",
+      "sequence": 24,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, radar service terminated, squawk VFR, frequency change approved.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_025",
+      "block": "enroute",
+      "group": "ff_squawk_vfr",
+      "sequence": 25,
+      "comm_type": "radio",
+      "text": "Squawk VFR, good day, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T001",
+      "block": "enroute",
+      "group": "freq_change_request",
+      "sequence": 26,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request frequency change for weather.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T002",
+      "block": "enroute",
+      "group": "freq_change_approved",
+      "sequence": 27,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, frequency change approved, report back this frequency.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T003",
+      "block": "enroute",
+      "group": "freq_change_ack",
+      "sequence": 28,
+      "comm_type": "radio",
+      "text": "Frequency change approved, will report back, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T004",
+      "block": "enroute",
+      "group": "freq_return",
+      "sequence": 29,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, back with you [Altitude].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T005",
+      "block": "enroute",
+      "group": "remain_frequency",
+      "sequence": 30,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, remain this frequency.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T006",
+      "block": "enroute",
+      "group": "remain_frequency_ack",
+      "sequence": 31,
+      "comm_type": "radio",
+      "text": "Remaining, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_T007",
+      "block": "enroute",
+      "group": "field_in_sight",
+      "sequence": 32,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, field in sight.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_001",
+      "block": "enroute",
+      "group": "altitude_change",
+      "sequence": 33,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, descend and maintain [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_002",
+      "block": "enroute",
+      "group": "altitude_change_readback",
+      "sequence": 34,
+      "comm_type": "radio",
+      "text": "Descend and maintain [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_003",
+      "block": "enroute",
+      "group": "altitude_request",
+      "sequence": 35,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request [Higher/Lower] altitude.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_004",
+      "block": "enroute",
+      "group": "altitude_request",
+      "sequence": 36,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request flight level [FL].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_005",
+      "block": "enroute",
+      "group": "fl180_note",
+      "sequence": 37,
+      "comm_type": "ics",
+      "text": "Note: Set altimeter to 29.92 when climbing through FL180.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-2-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_006",
+      "block": "enroute",
+      "group": "vectors",
+      "sequence": 38,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, fly heading [Heading].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_007",
+      "block": "enroute",
+      "group": "vectors_readback",
+      "sequence": 39,
+      "comm_type": "radio",
+      "text": "Heading [Heading], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_008",
+      "block": "enroute",
+      "group": "speed",
+      "sequence": 40,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, reduce speed to [Speed] knots.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_009",
+      "block": "enroute",
+      "group": "speed_readback",
+      "sequence": 41,
+      "comm_type": "radio",
+      "text": "Reduce speed [Speed] knots, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_010",
+      "block": "enroute",
+      "group": "speed",
+      "sequence": 42,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, resume normal speed.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_011",
+      "block": "enroute",
+      "group": "speed_readback",
+      "sequence": 43,
+      "comm_type": "radio",
+      "text": "Resume normal speed, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_012",
+      "block": "enroute",
+      "group": "route_request",
+      "sequence": 44,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request direct [Fix/Waypoint].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_013",
+      "block": "enroute",
+      "group": "route_request",
+      "sequence": 45,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request amended route via [Route].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_014",
+      "block": "enroute",
+      "group": "route_clearance",
+      "sequence": 46,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cleared direct [Fix/Waypoint].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_015",
+      "block": "enroute",
+      "group": "route_clearance_readback",
+      "sequence": 47,
+      "comm_type": "radio",
+      "text": "Direct [Fix/Waypoint], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_016",
+      "block": "enroute",
+      "group": "weather_deviation",
+      "sequence": 48,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request deviation [Left/Right] of course for weather.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_017",
+      "block": "enroute",
+      "group": "weather_deviation",
+      "sequence": 49,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, deviation approved, advise when able direct [Fix].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_018",
+      "block": "enroute",
+      "group": "weather_deviation_readback",
+      "sequence": 50,
+      "comm_type": "radio",
+      "text": "Deviation approved, will advise direct [Fix], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_019",
+      "block": "enroute",
+      "group": "weather_deviation",
+      "sequence": 51,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request [Altitude] due to icing.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_020",
+      "block": "enroute",
+      "group": "pirep_imc",
+      "sequence": 52,
+      "comm_type": "ics",
+      "text": "IFR PIREP Prompt (Cloud Layers):\nIn cloud [Altitude] to [Altitude]:\nBetween layers [Altitude] to [Altitude]:\nTopped clouds at [Altitude]:\nIcing observed:\nTurbulence:",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-1-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "ENROUTE_IFR_021",
+      "block": "enroute",
+      "group": "position_report",
+      "sequence": 53,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Full}}, [Fix], [Time] Zulu, [Altitude], estimating [Next Fix] at [ETA], [Following Fix].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-2",
+      "reference_url": null,
+      "notes": "Required when radar contact lost or in non-radar environment"
+    },
+    {
+      "call_id": "ENROUTE_IFR_022",
+      "block": "enroute",
+      "group": "minimum_fuel",
+      "sequence": 54,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, minimum fuel.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-5-15",
+      "reference_url": null,
+      "notes": "Not an emergency, but advises ATC that any undue delay will result in emergency fuel status"
+    },
+    {
+      "call_id": "ENROUTE_IFR_023",
+      "block": "enroute",
+      "group": "lost_comm",
+      "sequence": 55,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Full}}, radio check.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-4-1",
+      "reference_url": null,
+      "notes": "Attempt on current frequency if suspecting lost comm"
+    },
+    {
+      "call_id": "ENROUTE_IFR_024",
+      "block": "enroute",
+      "group": "lost_comm",
+      "sequence": 56,
+      "comm_type": "radio",
+      "text": "[Any Station], {{Call_Sign_Full}}, radio check on [###.##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-4-1",
+      "reference_url": null,
+      "notes": "Try guard frequency 121.5 if no response"
+    },
+    {
+      "call_id": "ENROUTE_IFR_025",
+      "block": "enroute",
+      "group": "lost_comm",
+      "sequence": 57,
+      "comm_type": "ics",
+      "text": "Lost Comm: Squawk 7600, fly route assigned/expected/filed, altitude highest of assigned/expected/MEA.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-4-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_001",
+      "block": "holding",
+      "group": "hold_clearance",
+      "sequence": 1,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, hold [Direction] of [Fix] on the [Radial/Course], [Leg Length] mile legs, expect further clearance [Time] Zulu.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_002",
+      "block": "holding",
+      "group": "hold_clearance_readback",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "Hold [Direction] of [Fix] on the [Radial/Course], [Leg Length] mile legs, expect further clearance [Time] Zulu, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_003",
+      "block": "holding",
+      "group": "hold_published",
+      "sequence": 3,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, hold as published at [Fix], expect further clearance [Time] Zulu.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_004",
+      "block": "holding",
+      "group": "hold_published_readback",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "Hold as published at [Fix], expect further clearance [Time] Zulu, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_005",
+      "block": "holding",
+      "group": "hold_entry",
+      "sequence": 5,
+      "comm_type": "ics",
+      "text": "Hold entry: [Direct/Teardrop/Parallel]",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_006",
+      "block": "holding",
+      "group": "entering_hold",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, entering hold at [Fix].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_007",
+      "block": "holding",
+      "group": "leaving_hold",
+      "sequence": 7,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cleared to [Fix], resume own navigation.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_008",
+      "block": "holding",
+      "group": "leaving_hold_readback",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "Cleared to [Fix], resume own navigation, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "HOLDING_009",
+      "block": "holding",
+      "group": "efc_request",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "[Center], {{Call_Sign_Abbr}}, request updated expect further clearance time.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-7",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T001",
+      "block": "descent",
+      "group": "atis_check",
+      "sequence": 0.5,
+      "comm_type": "ics",
+      "text": "ATIS: Information [A-Z], Wind [###/##], Altimeter [##.##], Landing runway [##]",
+      "applies_to": [
+        "vfr_towered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-13",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_001",
+      "block": "descent",
+      "group": "arrival_brief",
+      "sequence": 1,
+      "comm_type": "brief",
+      "text": "Arrival Brief:\nDestination:\nExpected runway:\nPattern entry:\nTraffic pattern altitude:\nParking/FBO:",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_002",
+      "block": "descent",
+      "group": "inbound_10",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}}, [10] miles [North/South/East/West], inbound for landing runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_003",
+      "block": "descent",
+      "group": "inbound_5",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}}, [5] miles [North/South/East/West], planning 45 entry [left/right] downwind runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T002",
+      "block": "descent",
+      "group": "contact_approach",
+      "sequence": 4,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact {{Stop2_Airport_Name}} Approach [###.##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T003",
+      "block": "descent",
+      "group": "contact_approach_ack",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Approach [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T004",
+      "block": "descent",
+      "group": "initial_call_approach",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Approach, {{Call_Sign_Full}}, [Miles] miles [North/South/East/West], [Altitude], inbound for landing with information [A-Z].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T005",
+      "block": "descent",
+      "group": "expect_runway",
+      "sequence": 7,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, expect runway [##], report [Position].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T006",
+      "block": "descent",
+      "group": "expect_runway_ack",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "Expect runway [##], will report [Position], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T007",
+      "block": "descent",
+      "group": "position_report",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Approach, {{Call_Sign_Abbr}}, [Position].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T008",
+      "block": "descent",
+      "group": "contact_tower",
+      "sequence": 10,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact {{Stop2_Airport_Name}} Tower [###.##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_T009",
+      "block": "descent",
+      "group": "contact_tower_ack",
+      "sequence": 11,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_001",
+      "block": "descent",
+      "group": "descent_clearance",
+      "sequence": 12,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, descend and maintain [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_002",
+      "block": "descent",
+      "group": "descent_clearance_readback",
+      "sequence": 13,
+      "comm_type": "radio",
+      "text": "Descend and maintain [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_003",
+      "block": "descent",
+      "group": "descent_clearance",
+      "sequence": 14,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, descend via the [STAR Name] arrival.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_004",
+      "block": "descent",
+      "group": "descent_clearance_readback",
+      "sequence": 15,
+      "comm_type": "radio",
+      "text": "Descend via the [STAR Name] arrival, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_005",
+      "block": "descent",
+      "group": "descent_clearance",
+      "sequence": 16,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cross [Fix] at [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_006",
+      "block": "descent",
+      "group": "descent_clearance_readback",
+      "sequence": 17,
+      "comm_type": "radio",
+      "text": "Cross [Fix] at [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_007",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 18,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request [ILS/RNAV/VOR] runway [##] approach.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_008",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 19,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request vectors to final runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_009",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 20,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request visual approach runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_010",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 21,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request contact approach.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-25",
+      "reference_url": null,
+      "notes": "Contact approach - pilot must request, 1 mile vis, clear of clouds"
+    },
+    {
+      "call_id": "DESCENT_IFR_011",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 22,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request practice [ILS/RNAV/VOR] runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_012",
+      "block": "descent",
+      "group": "approach_request",
+      "sequence": 23,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request [ILS/RNAV] runway [##] followed by [ILS/RNAV] runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_013",
+      "block": "descent",
+      "group": "divert_alternate",
+      "sequence": 24,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request divert to [Alternate Airport].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "DESCENT_IFR_014",
+      "block": "descent",
+      "group": "conditions_request",
+      "sequence": 25,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request pilot reports for conditions on final.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T001",
+      "block": "pattern",
+      "group": "initial_tower_call",
+      "sequence": 0.5,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Full}}, [Miles] miles [North/South/East/West], inbound for landing with information [A-Z].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T002",
+      "block": "pattern",
+      "group": "initial_tower_closed",
+      "sequence": 0.51,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Full}}, [Miles] miles [North/South/East/West], inbound for closed traffic with information [A-Z].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T003",
+      "block": "pattern",
+      "group": "enter_downwind",
+      "sequence": 0.52,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, enter [left/right] downwind runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T004",
+      "block": "pattern",
+      "group": "enter_downwind_readback",
+      "sequence": 0.53,
+      "comm_type": "radio",
+      "text": "[Left/Right] downwind runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T005",
+      "block": "pattern",
+      "group": "enter_base",
+      "sequence": 0.54,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, enter [left/right] base runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T006",
+      "block": "pattern",
+      "group": "enter_base_readback",
+      "sequence": 0.55,
+      "comm_type": "radio",
+      "text": "[Left/Right] base runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T007",
+      "block": "pattern",
+      "group": "straight_in",
+      "sequence": 0.56,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, report [Distance] mile final, runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T008",
+      "block": "pattern",
+      "group": "straight_in_readback",
+      "sequence": 0.57,
+      "comm_type": "radio",
+      "text": "Report [Distance] mile final runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T009",
+      "block": "pattern",
+      "group": "report_final",
+      "sequence": 0.58,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, [Distance] mile final runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T010",
+      "block": "pattern",
+      "group": "make_left_right_traffic",
+      "sequence": 0.59,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, make [left/right] traffic runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T011",
+      "block": "pattern",
+      "group": "make_left_right_traffic_readback",
+      "sequence": 0.6,
+      "comm_type": "radio",
+      "text": "[Left/Right] traffic runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T012",
+      "block": "pattern",
+      "group": "extend_downwind",
+      "sequence": 0.61,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, extend downwind, I'll call your base.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T013",
+      "block": "pattern",
+      "group": "extend_downwind_ack",
+      "sequence": 0.62,
+      "comm_type": "radio",
+      "text": "Extending downwind, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T014",
+      "block": "pattern",
+      "group": "extend_upwind",
+      "sequence": 0.63,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, extend upwind, I'll call your crosswind.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T015",
+      "block": "pattern",
+      "group": "extend_upwind_ack",
+      "sequence": 0.64,
+      "comm_type": "radio",
+      "text": "Extending upwind, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T016",
+      "block": "pattern",
+      "group": "turn_base",
+      "sequence": 0.65,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, turn base.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T017",
+      "block": "pattern",
+      "group": "turn_base_ack",
+      "sequence": 0.66,
+      "comm_type": "radio",
+      "text": "Turning base, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T018",
+      "block": "pattern",
+      "group": "turn_crosswind",
+      "sequence": 0.67,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, turn crosswind.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T019",
+      "block": "pattern",
+      "group": "turn_crosswind_ack",
+      "sequence": 0.68,
+      "comm_type": "radio",
+      "text": "Turning crosswind, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T020",
+      "block": "pattern",
+      "group": "follow_traffic",
+      "sequence": 0.69,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, follow [Type Aircraft] on [Position], runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T021",
+      "block": "pattern",
+      "group": "follow_traffic_ack",
+      "sequence": 0.7,
+      "comm_type": "radio",
+      "text": "Following [Type Aircraft], runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T022",
+      "block": "pattern",
+      "group": "traffic_insight",
+      "sequence": 0.71,
+      "comm_type": "radio",
+      "text": "Traffic in sight, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T023",
+      "block": "pattern",
+      "group": "traffic_negative",
+      "sequence": 0.72,
+      "comm_type": "radio",
+      "text": "Negative contact, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T024",
+      "block": "pattern",
+      "group": "number_sequence",
+      "sequence": 0.73,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, number [Number], runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T025",
+      "block": "pattern",
+      "group": "number_sequence_ack",
+      "sequence": 0.74,
+      "comm_type": "radio",
+      "text": "Number [Number], runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T026",
+      "block": "pattern",
+      "group": "short_approach_request",
+      "sequence": 0.75,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, request short approach.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T027",
+      "block": "pattern",
+      "group": "short_approach_approved",
+      "sequence": 0.76,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, short approach approved runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T028",
+      "block": "pattern",
+      "group": "short_approach_readback",
+      "sequence": 0.77,
+      "comm_type": "radio",
+      "text": "Short approach runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T029",
+      "block": "pattern",
+      "group": "unable_short",
+      "sequence": 0.78,
+      "comm_type": "radio",
+      "text": "Unable short approach, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T030",
+      "block": "pattern",
+      "group": "360_spacing",
+      "sequence": 0.79,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, make a 360 for spacing.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T031",
+      "block": "pattern",
+      "group": "360_spacing_ack",
+      "sequence": 0.8,
+      "comm_type": "radio",
+      "text": "360 for spacing, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T032",
+      "block": "pattern",
+      "group": "pilots_discretion",
+      "sequence": 0.81,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, approved as requested, report full stop.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T033",
+      "block": "pattern",
+      "group": "pilots_discretion_ack",
+      "sequence": 0.82,
+      "comm_type": "radio",
+      "text": "Approved as requested, will report full stop, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_T034",
+      "block": "pattern",
+      "group": "request_additional",
+      "sequence": 0.83,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, request additional patterns.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_001",
+      "block": "pattern",
+      "group": "entry_45",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} entering [left/right] 45 for downwind runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_002",
+      "block": "pattern",
+      "group": "entry_midfield",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} overflying midfield [Altitude] for [left/right] downwind runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_003",
+      "block": "pattern",
+      "group": "entry_straight_in",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} [#] mile final, straight in runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AC 90-66C",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_004",
+      "block": "pattern",
+      "group": "downwind",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} [left/right] downwind runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_005",
+      "block": "pattern",
+      "group": "downwind_midfield",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} midfield [left/right] downwind runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_006",
+      "block": "pattern",
+      "group": "base",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} turning [left/right] base runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_007",
+      "block": "pattern",
+      "group": "final",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} turning final runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_008",
+      "block": "pattern",
+      "group": "final",
+      "sequence": 8,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} final runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_009",
+      "block": "pattern",
+      "group": "short_final",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} short final runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_010",
+      "block": "pattern",
+      "group": "go_around",
+      "sequence": 10,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} going around runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_001",
+      "block": "pattern",
+      "group": "procedure_turn",
+      "sequence": 10.5,
+      "comm_type": "ics",
+      "text": "Procedure turn inbound.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_002",
+      "block": "pattern",
+      "group": "faf",
+      "sequence": 10.6,
+      "comm_type": "ics",
+      "text": "Final approach fix, [Configuration], [Speed].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-5",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_003",
+      "block": "pattern",
+      "group": "faf",
+      "sequence": 10.7,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}}, [Approach Type] final runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null,
+      "notes": "Self-announce on CTAF when on final approach at non-towered"
+    },
+    {
+      "call_id": "PATTERN_IFR_004",
+      "block": "pattern",
+      "group": "minimums",
+      "sequence": 10.8,
+      "comm_type": "ics",
+      "text": "Minimums, [Runway in Sight / Runway Not in Sight].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_005",
+      "block": "pattern",
+      "group": "runway_insight",
+      "sequence": 10.9,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, runway in sight.",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_006",
+      "block": "pattern",
+      "group": "missed_approach",
+      "sequence": 11,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, missed approach.",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_007",
+      "block": "pattern",
+      "group": "missed_approach",
+      "sequence": 11.1,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, missed approach, [Climbing/Turning] as published.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_008",
+      "block": "pattern",
+      "group": "missed_approach",
+      "sequence": 11.2,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, roger, fly heading [Heading], climb and maintain [Altitude].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_009",
+      "block": "pattern",
+      "group": "missed_approach_readback",
+      "sequence": 11.3,
+      "comm_type": "radio",
+      "text": "Heading [Heading], climb and maintain [Altitude], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "PATTERN_IFR_010",
+      "block": "pattern",
+      "group": "vectors_another",
+      "sequence": 11.4,
+      "comm_type": "radio",
+      "text": "[Approach], {{Call_Sign_Abbr}}, request vectors for another approach.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-21",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_001",
+      "block": "approach",
+      "group": "approach_brief",
+      "sequence": 1,
+      "comm_type": "brief",
+      "text": "Approach Brief:\nApproach type:\nFinal approach course:\nDecision altitude/MDA:\nMissed approach point:\nKey altitudes:",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_002",
+      "block": "approach",
+      "group": "missed_approach_brief",
+      "sequence": 2,
+      "comm_type": "brief",
+      "text": "Missed Approach Brief:\nClimb:\nTurn:\nNavigate to:\nHold at:\nExpect:",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_003",
+      "block": "approach",
+      "group": "alternate_brief",
+      "sequence": 3,
+      "comm_type": "brief",
+      "text": "Alternate Brief:\nAlternate airport:\nDistance:\nFuel required:\nApproach types available:\nMinimums:",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_004",
+      "block": "approach",
+      "group": "approach_clearance",
+      "sequence": 4,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cleared [ILS/RNAV/VOR] runway [##] approach.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_005",
+      "block": "approach",
+      "group": "approach_clearance_readback",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "Cleared [ILS/RNAV/VOR] runway [##] approach, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_006",
+      "block": "approach",
+      "group": "vectors_final",
+      "sequence": 6,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, [Miles] miles from [Fix], turn [Left/Right] heading [Heading], maintain [Altitude] until established, cleared [ILS/RNAV] runway [##] approach.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_007",
+      "block": "approach",
+      "group": "vectors_final_readback",
+      "sequence": 7,
+      "comm_type": "radio",
+      "text": "[Left/Right] heading [Heading], maintain [Altitude] until established, cleared [ILS/RNAV] runway [##] approach, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_008",
+      "block": "approach",
+      "group": "dogleg",
+      "sequence": 8,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, fly heading [Heading], intercept the final approach course runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_009",
+      "block": "approach",
+      "group": "dogleg_readback",
+      "sequence": 9,
+      "comm_type": "radio",
+      "text": "Heading [Heading], intercept final approach course runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_010",
+      "block": "approach",
+      "group": "circle_to_land",
+      "sequence": 10,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cleared [Approach Type] runway [##] approach, circle to land runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_011",
+      "block": "approach",
+      "group": "circle_to_land_readback",
+      "sequence": 11,
+      "comm_type": "radio",
+      "text": "Cleared [Approach Type] runway [##] approach, circle to land runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_012",
+      "block": "approach",
+      "group": "sidestep",
+      "sequence": 12,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cleared [Approach Type] runway [##] approach, sidestep to runway [##].",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-19",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_013",
+      "block": "approach",
+      "group": "sidestep_readback",
+      "sequence": 13,
+      "comm_type": "radio",
+      "text": "Cleared [Approach Type] runway [##] approach, sidestep runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-19",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_014",
+      "block": "approach",
+      "group": "speed_config",
+      "sequence": 14,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, reduce speed to [Speed] knots.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_015",
+      "block": "approach",
+      "group": "speed_config_readback",
+      "sequence": 15,
+      "comm_type": "radio",
+      "text": "Reduce speed [Speed] knots, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_016",
+      "block": "approach",
+      "group": "contact_tower",
+      "sequence": 16,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, contact tower [###.##].",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_017",
+      "block": "approach",
+      "group": "contact_tower_readback",
+      "sequence": 17,
+      "comm_type": "radio",
+      "text": "Tower [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_018",
+      "block": "approach",
+      "group": "tower_checkin",
+      "sequence": 18,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Tower, {{Call_Sign_Abbr}}, [Approach Type] runway [##], [Position].",
+      "applies_to": [
+        "ifr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_019",
+      "block": "approach",
+      "group": "change_to_ctaf",
+      "sequence": 19,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, change to advisory frequency approved, cancel IFR on this frequency or on the ground.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "APPROACH_IFR_020",
+      "block": "approach",
+      "group": "change_to_ctaf_readback",
+      "sequence": 20,
+      "comm_type": "radio",
+      "text": "Advisory frequency, will cancel on the ground, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-4-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T001",
+      "block": "landing",
+      "group": "cleared_land",
+      "sequence": 0.5,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, wind [###] at [##], runway [##], cleared to land.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T002",
+      "block": "landing",
+      "group": "cleared_land_readback",
+      "sequence": 0.51,
+      "comm_type": "radio",
+      "text": "Cleared to land runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T003",
+      "block": "landing",
+      "group": "cleared_touch_go",
+      "sequence": 0.52,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared touch and go.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T004",
+      "block": "landing",
+      "group": "cleared_touch_go_readback",
+      "sequence": 0.53,
+      "comm_type": "radio",
+      "text": "Cleared touch and go runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T005",
+      "block": "landing",
+      "group": "cleared_option",
+      "sequence": 0.54,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared for the option.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-22",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T006",
+      "block": "landing",
+      "group": "cleared_option_readback",
+      "sequence": 0.55,
+      "comm_type": "radio",
+      "text": "Cleared for the option runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-22",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T007",
+      "block": "landing",
+      "group": "cleared_low_approach",
+      "sequence": 0.56,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, runway [##], cleared low approach.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T008",
+      "block": "landing",
+      "group": "cleared_low_approach_readback",
+      "sequence": 0.57,
+      "comm_type": "radio",
+      "text": "Cleared low approach runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T009",
+      "block": "landing",
+      "group": "lahso",
+      "sequence": 0.58,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, wind [###] at [##], runway [##], cleared to land, hold short of wind [###] at [##], runway [##], [Distance] feet available.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-11",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T010",
+      "block": "landing",
+      "group": "lahso_accept",
+      "sequence": 0.59,
+      "comm_type": "radio",
+      "text": "Cleared to land runway [##], hold short runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-11",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T011",
+      "block": "landing",
+      "group": "lahso_reject",
+      "sequence": 0.6,
+      "comm_type": "radio",
+      "text": "Unable LAHSO, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-11",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T012",
+      "block": "landing",
+      "group": "go_around",
+      "sequence": 0.61,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, go around.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T013",
+      "block": "landing",
+      "group": "go_around_ack",
+      "sequence": 0.62,
+      "comm_type": "radio",
+      "text": "Going around, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-3",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T014",
+      "block": "landing",
+      "group": "wake_turbulence",
+      "sequence": 0.63,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, caution wake turbulence, landing [Type Aircraft].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-4-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T015",
+      "block": "landing",
+      "group": "wake_turbulence_ack",
+      "sequence": 0.64,
+      "comm_type": "radio",
+      "text": "Caution wake turbulence, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 7-4-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T016",
+      "block": "landing",
+      "group": "exit_runway",
+      "sequence": 0.65,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, turn [left/right] [Taxiway] when able, contact ground [###.##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T017",
+      "block": "landing",
+      "group": "exit_runway_readback",
+      "sequence": 0.66,
+      "comm_type": "radio",
+      "text": "[Left/Right] [Taxiway], ground [###.##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T018",
+      "block": "landing",
+      "group": "expedite_clear",
+      "sequence": 0.67,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, expedite clearing runway, traffic on short final.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_T019",
+      "block": "landing",
+      "group": "expedite_clear_ack",
+      "sequence": 0.68,
+      "comm_type": "radio",
+      "text": "Expediting, {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_001",
+      "block": "landing",
+      "group": "clear_runway",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} clear of runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_002",
+      "block": "landing",
+      "group": "touch_and_go",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} touch and go runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_003",
+      "block": "landing",
+      "group": "full_stop",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} full stop runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_004",
+      "block": "landing",
+      "group": "low_approach",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} low approach runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_005",
+      "block": "landing",
+      "group": "option",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} requesting the option runway [##], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-22",
+      "reference_url": null
+    },
+    {
+      "call_id": "LANDING_IFR_NT_001",
+      "block": "landing",
+      "group": "cancel_ifr_air",
+      "sequence": 5.5,
+      "comm_type": "radio",
+      "text": "[Approach/Center], {{Call_Sign_Abbr}}, cancel IFR.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-1-15",
+      "reference_url": null,
+      "notes": "Cancel in the air if VFR conditions exist - releases airspace immediately"
+    },
+    {
+      "call_id": "LANDING_IFR_NT_002",
+      "block": "landing",
+      "group": "cancel_ifr_air",
+      "sequence": 5.6,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, IFR cancellation received, squawk VFR, frequency change approved.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-1-15",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_001",
+      "block": "taxi_in",
+      "group": "initial_call",
+      "sequence": 0.5,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Ground, {{Call_Sign_Abbr}}, clear of runway [##], taxi to [Parking/FBO/Ramp].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_002",
+      "block": "taxi_in",
+      "group": "taxi_clearance",
+      "sequence": 0.51,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, taxi to [Parking/FBO/Ramp] via [Taxiway Route].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_003",
+      "block": "taxi_in",
+      "group": "taxi_readback",
+      "sequence": 0.52,
+      "comm_type": "radio",
+      "text": "Taxi to [Parking/FBO/Ramp] via [Taxiway Route], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_004",
+      "block": "taxi_in",
+      "group": "progressive_taxi",
+      "sequence": 0.53,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Ground, {{Call_Sign_Abbr}}, request progressive taxi.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_005",
+      "block": "taxi_in",
+      "group": "follow_me",
+      "sequence": 0.54,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Ground, {{Call_Sign_Abbr}}, request follow-me.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_006",
+      "block": "taxi_in",
+      "group": "parking_request",
+      "sequence": 0.55,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} Ground, {{Call_Sign_Abbr}}, request parking at [Specific Location].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_007",
+      "block": "taxi_in",
+      "group": "hold_short_in",
+      "sequence": 0.56,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, hold short runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_008",
+      "block": "taxi_in",
+      "group": "hold_short_in_readback",
+      "sequence": 0.57,
+      "comm_type": "radio",
+      "text": "Hold short runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_009",
+      "block": "taxi_in",
+      "group": "cross_runway_in",
+      "sequence": 0.58,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, cross runway [##].",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "GROUND_IN_010",
+      "block": "taxi_in",
+      "group": "cross_runway_in_readback",
+      "sequence": 0.59,
+      "comm_type": "radio",
+      "text": "Cross runway [##], {{Call_Sign_Abbr}}.",
+      "applies_to": [
+        "vfr_towered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-3-20",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_IN_001",
+      "block": "taxi_in",
+      "group": "taxi_parking",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} taxiing to [Parking/FBO/Ramp], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_IN_002",
+      "block": "taxi_in",
+      "group": "runway_crossing",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} crossing runway [##] at [Taxiway], {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": true,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_IN_003",
+      "block": "taxi_in",
+      "group": "fuel_request",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Name}} UNICOM, {{Call_Sign_Abbr}} request fuel at the pumps.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_IN_004",
+      "block": "taxi_in",
+      "group": "clear_movement_area",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "{{Stop2_Airport_Traffic}}, {{Call_Sign_Abbr}} clear of the movement area, {{Stop2_Airport_Name}}.",
+      "applies_to": [
+        "vfr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 4-1-9",
+      "reference_url": null
+    },
+    {
+      "call_id": "TAXI_IN_IFR_NT_001",
+      "block": "taxi_in",
+      "group": "cancel_ifr_ground",
+      "sequence": 5.9,
+      "comm_type": "radio",
+      "text": "[Approach/Center/FSS], {{Call_Sign_Full}}, on the ground at {{Stop2_Airport_Name}}, cancel IFR.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-1-15",
+      "reference_url": null,
+      "notes": "Must cancel IFR on ground if not cancelled in air - critical for releasing airspace"
+    },
+    {
+      "call_id": "TAXI_IN_IFR_NT_002",
+      "block": "taxi_in",
+      "group": "cancel_ifr_ground",
+      "sequence": 5.91,
+      "comm_type": "atc_response",
+      "text": "{{Call_Sign_Abbr}}, IFR cancellation received, [Time] Zulu.",
+      "applies_to": [
+        "ifr_nontowered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-1-15",
+      "reference_url": null
+    },
+    {
+      "call_id": "SHUTDOWN_001",
+      "block": "shutdown",
+      "group": "shutdown",
+      "sequence": 1,
+      "comm_type": "ics",
+      "text": "Parking brake set, avionics off, mixture cutoff.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_001",
+      "block": "emergency",
+      "group": "declaration",
+      "sequence": 1,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}} declaring an emergency. [Location], [Altitude]. [Nature of Emergency]. [Souls on Board] souls, [Fuel Remaining] fuel. Request [Intentions].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-1-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_002",
+      "block": "emergency",
+      "group": "mayday",
+      "sequence": 3,
+      "comm_type": "radio",
+      "text": "Mayday, Mayday, Mayday. [Center/Approach], {{Call_Sign_Full}}. [Location], [Altitude]. [Nature of Emergency]. [Souls on Board] souls, [Fuel Remaining] fuel. Request [Intentions].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-1-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_003",
+      "block": "emergency",
+      "group": "pan_pan",
+      "sequence": 2,
+      "comm_type": "radio",
+      "text": "Pan-Pan, Pan-Pan, Pan-Pan. [Center/Approach], {{Call_Sign_Full}}. [Location], [Altitude]. [Nature of Urgency]. Request [Request].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-1-2",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_004",
+      "block": "emergency",
+      "group": "min_fuel",
+      "sequence": 4,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, minimum fuel.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 5-5-15",
+      "reference_url": null,
+      "notes": "Advisory only - not an emergency declaration but alerts ATC to priority handling"
+    },
+    {
+      "call_id": "EMERG_005",
+      "block": "emergency",
+      "group": "lost",
+      "sequence": 5,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, uncertain of position, request assistance.",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-1-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_006",
+      "block": "emergency",
+      "group": "inadvertent_imc",
+      "sequence": 6,
+      "comm_type": "radio",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, VFR pilot in IMC conditions, request assistance, [Altitude], [Heading].",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-1-1",
+      "reference_url": null
+    },
+    {
+      "call_id": "EMERG_007",
+      "block": "emergency",
+      "group": "squawk_codes",
+      "sequence": 10,
+      "comm_type": "note",
+      "text": "Emergency Squawk Codes: 7700 (Emergency), 7600 (Lost Comms), 7500 (Hijack)",
+      "applies_to": [
+        "vfr_nontowered",
+        "vfr_towered",
+        "ifr_nontowered",
+        "ifr_towered"
+      ],
+      "expand_per_runway": false,
+      "source": "AIM 6-2-2",
+      "reference_url": null
+    }
+  ],
+  "comm_sheet_types": [
+    "vfr_nontowered (MVP)",
+    "vfr_towered",
+    "ifr_nontowered",
+    "ifr_towered"
+  ]
+}

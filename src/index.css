@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+body.is-dragging,
+body.is-dragging * {
+  cursor: grabbing !important;
+}
+
+@keyframes highlight-fade {
+  0% { outline: 2px solid #22c55e; outline-offset: 2px; background-color: #dcfce7; }
+  70% { outline: 2px solid #22c55e; outline-offset: 2px; background-color: #dcfce7; }
+  100% { outline: 2px solid transparent; outline-offset: 2px; background-color: transparent; }
+}
+
+.animate-highlight-fade {
+  animation: highlight-fade 1.5s ease-out forwards;
+  border-radius: 0.75rem;
+}
