@@ -5,6 +5,11 @@ body.is-dragging * {
   cursor: grabbing !important;
 }
 
+/* During drag, child elements shouldn't capture pointer events - let parent handle drops */
+body.is-dragging [draggable="true"] > * {
+  pointer-events: none;
+}
+
 @keyframes highlight-fade {
   0% { outline: 2px solid #22c55e; outline-offset: 2px; background-color: #dcfce7; }
   70% { outline: 2px solid #22c55e; outline-offset: 2px; background-color: #dcfce7; }

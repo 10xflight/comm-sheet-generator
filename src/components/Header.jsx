@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Undo, Redo, Menu, Download, BookOpen, Save, SaveAll, FolderOpen, ChevronDown, ChevronRight, HelpCircle } from 'lucide-react';
+import { Undo, Redo, ListPlus, Download, BookOpen, Save, SaveAll, FolderOpen, ChevronDown, ChevronRight, HelpCircle } from 'lucide-react';
 import { HeadsetIcon } from './Icons';
 
-export default function Header({ historyLen, redoLen, showLib, hideAtc, showRefKey, onUndo, onRedo, onToggleLib, onToggleAtc, onToggleRefKey, onExport, onSave, onSaveAs, onLoad, hasSheet, currentProjectId }) {
+export default function Header({ historyLen, redoLen, showLib, showRefKey, onUndo, onRedo, onToggleLib, onToggleRefKey, onExport, onSave, onSaveAs, onLoad, hasSheet, currentProjectId }) {
   const [showInfo, setShowInfo] = useState(false);
 
   return (
-    <header className="max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl shadow-xl shadow-slate-200/50 border border-white/50 p-5 mb-6 sticky top-4 z-30">
+    <header data-header="true" className="max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl shadow-xl shadow-slate-200/50 border border-white/50 p-5 mb-6 sticky top-4 z-30">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
@@ -30,10 +30,7 @@ export default function Header({ historyLen, redoLen, showLib, hideAtc, showRefK
             Key
           </button>
           <button onClick={onToggleLib} className={`p-2.5 rounded-xl transition-all ${showLib ? 'bg-blue-100 text-blue-600' : 'text-slate-600 hover:bg-slate-100'}`} title="Call Library">
-            <Menu size={20} />
-          </button>
-          <button onClick={onToggleAtc} className={`px-3 py-2 rounded-xl transition-all text-xs font-bold ${!hideAtc ? 'bg-purple-100 text-purple-600' : 'text-slate-400 bg-slate-100 hover:bg-slate-200'}`} title={hideAtc ? "Show ATC Responses" : "Hide ATC Responses"}>
-            ATC
+            <ListPlus size={20} />
           </button>
           <button onClick={() => { window.location.hash = '#/library'; }} className="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-all" title="Library Editor">
             <BookOpen size={20} />
@@ -103,6 +100,7 @@ export default function Header({ historyLen, redoLen, showLib, hideAtc, showRefK
             {[
               { code: '{{CS_Full}}', desc: 'Full call sign' },
               { code: '{{CS_Abbr}}', desc: 'Abbreviated call sign' },
+              { code: '{{CS_Short}}', desc: 'Last 3 only (after ATC ack)' },
               { code: '{{Dep_Name}}', desc: 'Departure airport name' },
               { code: '{{Dep_Abridged}}', desc: 'Departure short name' },
               { code: '{{Dep_Traffic}}', desc: 'Departure traffic freq' },

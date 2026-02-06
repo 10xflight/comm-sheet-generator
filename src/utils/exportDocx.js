@@ -62,27 +62,33 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
       border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' } },
     }));
 
-    let prevGroup = null;
+    let prevCall = null;
     blockCalls.forEach(call => {
       const callVars = call._legVars || vars;
       let text = subVars(call.text || '', callVars);
       // Remove markup brackets for clean text
       text = text.replace(/\[([^\]]+)\]/g, '[$1]');
 
-      // Double spacing between groups
-      const groupGap = prevGroup && call.group && call.group !== prevGroup;
-      prevGroup = call.group;
+      // Add spacing between different groups (no line, just breathing room)
+      const isNewGroup = prevCall && (
+        (call.group && prevCall.group && call.group !== prevCall.group) ||
+        (call.group && !prevCall.group) ||
+        (!call.group && prevCall.group)
+      );
+      // Store whether this call needs extra space before it
+      const needsGroupSpace = isNewGroup;
+      prevCall = call;
 
       if (call.isTaxiBrief && call.taxiRoutes?.length) {
         children.push(new Paragraph({
           children: [new TextRun({ text, bold: true, size: 20, font: 'Calibri' })],
-          spacing: { before: groupGap ? 200 : 80, after: 40 },
+          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
         }));
         call.taxiRoutes.filter(r => r.runway && r.route).forEach(r => {
           children.push(new Paragraph({
             children: [new TextRun({ text: `    RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, size: 20, font: 'Calibri', color: '333333' })],
             indent: { left: 360 },
-            spacing: { after: 40 },
+            spacing: { before: 0, after: 0 },
           }));
         });
         return;
@@ -93,7 +99,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           children: [new TextRun({ text, italics: true, size: 20, font: 'Calibri', color: '777777' })],
           alignment: AlignmentType.RIGHT,
           indent: { left: 4320 },
-          spacing: { before: groupGap ? 200 : 40, after: 40 },
+          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
         }));
       } else if (call.type === 'note') {
         children.push(new Paragraph({
@@ -101,7 +107,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
             new TextRun({ text: 'NOTE ', bold: true, size: 18, font: 'Calibri', color: '999999' }),
             new TextRun({ text, size: 20, font: 'Calibri', color: '333333' }),
           ],
-          spacing: { before: groupGap ? 200 : 40, after: 40 },
+          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
         }));
       } else if (call.type === 'brief') {
         // Multi-line briefs
@@ -118,7 +124,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
               }),
               ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 16, font: 'Calibri', color: 'CC8800' })] : []),
             ],
-            spacing: { before: i === 0 ? (groupGap ? 200 : 80) : 20, after: 20 },
+            spacing: { before: (i === 0 && needsGroupSpace) ? 200 : 0, after: 0 },
             border: i === 0 ? { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'EEEEEE' } } : undefined,
           }));
         });
@@ -126,7 +132,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
         // Radio call
         children.push(new Paragraph({
           children: [new TextRun({ text, size: 22, font: 'Calibri' })],
-          spacing: { before: groupGap ? 200 : 60, after: 60 },
+          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
         }));
       }
     });

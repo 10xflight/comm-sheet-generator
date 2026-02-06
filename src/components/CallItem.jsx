@@ -12,18 +12,21 @@ const APPLIES_OPTIONS = [
 export default function CallItem({
   call, isHidden, isEditing, editText, briefTitle, onEdit, onSave, onCancel, onChange,
   onToggleHidden, onDelete, vars, showHidden, hideAtc, onDragStart, onDragOver,
-  onDrop, onDragEnd, isDragging, spacingClass, onSaveToMaster, savedToMaster, onResetToDefault, currentFlightType, isNew
+  onDrop, onDragEnd, isDragging, spacingClass, onSaveToMaster, savedToMaster, onResetToDefault, currentFlightType, isNew,
+  isGroupedWithPrev, isGroupedWithNext, draggedCallGroup
 }) {
   const [dropPosition, setDropPosition] = useState(null);
   const [showMasterPicker, setShowMasterPicker] = useState(false);
   const [masterApplies, setMasterApplies] = useState([]);
   const editorRef = useRef(null);
 
-  // Click outside to close editor
+  // Click outside to close editor (but not when clicking header buttons like Key)
   useEffect(() => {
     if (!isEditing) return;
     const handler = (e) => {
       if (editorRef.current && !editorRef.current.contains(e.target)) {
+        // Don't close if clicking in the header (Key button, etc.)
+        if (e.target.closest('[data-header]')) return;
         onSave();
       }
     };
@@ -56,18 +59,55 @@ export default function CallItem({
   const handleDragOver = (e) => {
     if (isDragging) return; // Don't show indicator on the item being dragged
     e.preventDefault();
+    e.stopPropagation(); // Prevent block-level drag handlers from interfering
     e.dataTransfer.dropEffect = 'move';
     const rect = e.currentTarget.getBoundingClientRect();
     const midY = rect.top + rect.height / 2;
-    setDropPosition(e.clientY < midY ? 'above' : 'below');
+
+    // Check if dragged and target are already in the same group
+    const alreadySameGroup = draggedCallGroup && call.group && draggedCallGroup === call.group;
+
+    // Proximity-based grouping:
+    // - Over the call (middle 40%) = GROUP (green, tight)
+    // - Near edges (outer 30% each side, where gaps are) = SEPARATE (blue, spaced)
+    const edgeZone = rect.height * 0.3; // outer 30% on each edge = gap zone
+
+    if (e.clientY < midY) {
+      // Above the midpoint - inserting ABOVE this call
+      const distFromTop = e.clientY - rect.top;
+      // If already in same group, always stay grouped (no blue separate option)
+      if (alreadySameGroup) {
+        setDropPosition('above-same');
+      } else {
+        // Near top edge = in the gap = SEPARATE, away from edge = GROUP
+        setDropPosition(distFromTop < edgeZone ? 'above-new' : 'above-same');
+      }
+    } else {
+      // Below the midpoint - inserting BELOW this call
+      const distFromBottom = rect.bottom - e.clientY;
+      // If already in same group, always stay grouped (no blue separate option)
+      if (alreadySameGroup) {
+        setDropPosition('below-same');
+      } else {
+        // Near bottom edge = in the gap = SEPARATE, away from edge = GROUP
+        setDropPosition(distFromBottom < edgeZone ? 'below-new' : 'below-same');
+      }
+    }
   };
 
-  const handleDragLeave = () => setDropPosition(null);
+  const handleDragLeave = (e) => {
+    e.stopPropagation();
+    setDropPosition(null);
+  };
 
   const handleDrop = (e) => {
+    e.stopPropagation(); // Prevent block-level drop handlers from interfering
     const pos = dropPosition;
     setDropPosition(null);
-    onDrop(e, call.id, pos);
+    // Pass position and whether to group with adjacent call
+    const groupWithTarget = pos === 'above-same' || pos === 'below-same';
+    const verticalPos = pos?.startsWith('below') ? 'below' : 'above';
+    onDrop(e, call.id, verticalPos, groupWithTarget);
   };
 
   if (isEditing) {
@@ -158,11 +198,31 @@ export default function CallItem({
     );
   }
 
+  // Visual indicator for grouped calls
+  const isGrouped = isGroupedWithPrev || isGroupedWithNext;
+
   return (
     <div id={`call-${call.id}`} className={`relative ${isNew ? 'animate-highlight-fade' : ''}`}>
-      {dropPosition === 'above' && (
-        <div className="absolute -top-0.5 left-0 right-0 h-0.5 bg-blue-500 z-10 rounded-full shadow-sm shadow-blue-500/50">
-          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-blue-500 rounded-full" />
+      {/* Grouped indicator - subtle left line connecting grouped calls */}
+      {isGrouped && (
+        <div className="absolute left-1 w-0.5 bg-emerald-300/60 rounded-full" style={{
+          top: isGroupedWithPrev ? '-0.5rem' : '0.5rem',
+          bottom: isGroupedWithNext ? '-0.5rem' : '0.5rem',
+        }} />
+      )}
+
+      {/* Above - same group (tight spacing): hugs the call, green */}
+      {dropPosition === 'above-same' && (
+        <div className="absolute top-0 left-8 right-0 h-0.5 bg-emerald-400 z-10 rounded-full shadow-sm shadow-emerald-400/50">
+          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-emerald-400 rounded-full" />
+          <span className="absolute top-1 left-0 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">group</span>
+        </div>
+      )}
+      {/* Above - new group (more spacing): in the gap, blue */}
+      {dropPosition === 'above-new' && (
+        <div className="absolute -top-3 left-0 right-0 h-0.5 bg-blue-400 z-10 rounded-full shadow-sm shadow-blue-400/50">
+          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-blue-400 rounded-full" />
+          <span className="absolute -top-5 right-0 text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">separate</span>
         </div>
       )}
 
@@ -229,9 +289,18 @@ export default function CallItem({
         )}
       </div>
 
-      {dropPosition === 'below' && (
-        <div className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-blue-500 z-10 rounded-full shadow-sm shadow-blue-500/50">
-          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-blue-500 rounded-full" />
+      {/* Below - same group (tight spacing): hugs the call, green */}
+      {dropPosition === 'below-same' && (
+        <div className="absolute bottom-0 left-8 right-0 h-0.5 bg-emerald-400 z-10 rounded-full shadow-sm shadow-emerald-400/50">
+          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-emerald-400 rounded-full" />
+          <span className="absolute -top-5 left-0 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">group</span>
+        </div>
+      )}
+      {/* Below - new group (more spacing): in the gap, blue */}
+      {dropPosition === 'below-new' && (
+        <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-blue-400 z-10 rounded-full shadow-sm shadow-blue-400/50">
+          <div className="absolute -left-1 -top-1 w-2.5 h-2.5 bg-blue-400 rounded-full" />
+          <span className="absolute top-1 right-0 text-[9px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">separate</span>
         </div>
       )}
     </div>

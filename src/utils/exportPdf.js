@@ -82,14 +82,21 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     doc.line(marginL, y, pageW - marginR, y);
     y += 10;
 
-    let prevGroup = null;
+    let prevCall = null;
     blockCalls.forEach(call => {
       const callVars = call._legVars || vars;
       let text = subVars(call.text || '', callVars);
 
-      const groupGap = prevGroup && call.group && call.group !== prevGroup;
-      prevGroup = call.group;
-      if (groupGap) y += 8;
+      // Add spacing between different groups (no line, just breathing room)
+      const isNewGroup = prevCall && (
+        (call.group && prevCall.group && call.group !== prevCall.group) ||
+        (call.group && !prevCall.group) ||
+        (!call.group && prevCall.group)
+      );
+      if (isNewGroup) {
+        y += 10; // Just spacing, no line
+      }
+      prevCall = call;
 
       if (call.isTaxiBrief && call.taxiRoutes?.length) {
         checkPage(40);
@@ -118,7 +125,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         const lines = doc.splitTextToSize(text, atcMaxW);
         const textW = Math.max(...lines.map(l => doc.getTextWidth(l)));
         doc.text(lines, pageW - marginR - textW, y);
-        y += lines.length * 11 + 3;
+        y += lines.length * 11; // 0pt extra spacing
       } else if (call.type === 'note') {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8);
@@ -136,7 +143,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
             doc.text(lines[li], marginL, y);
           }
         }
-        y += 10 + 3;
+        y += 10; // 0pt extra spacing
       } else if (call.type === 'brief') {
         const briefLines = text.split('\n');
         briefLines.forEach((line, i) => {
@@ -153,7 +160,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
           const displayLine = i === 0 ? `${line} (Modify as Needed)` : `    ${line}`;
           const wrapped = doc.splitTextToSize(displayLine, contentW);
           doc.text(wrapped, marginL, y);
-          y += wrapped.length * 11 + 2;
+          y += wrapped.length * 11; // 0pt extra spacing
         });
       } else {
         doc.setFont('helvetica', 'normal');
@@ -161,7 +168,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         doc.setTextColor(30);
         const lines = doc.splitTextToSize(text, contentW);
         doc.text(lines, marginL, y);
-        y += lines.length * 13 + 4;
+        y += lines.length * 12; // 0pt extra spacing (tighter line height)
       }
     });
 

@@ -20,6 +20,7 @@ export default function ConfigPanel({
                 value={callSign}
                 onChange={(e) => onCallSignChange(e.target.value)}
                 onFocus={() => callSignHistory?.length > 0 && setShowHistory(true)}
+                onBlur={() => { if (callSign.trim()) onSaveCallSign(); }}
                 placeholder="[Type] [N-Number], e.g., Skyhawk 12345"
                 className="w-full px-4 py-3 pr-10 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
               />

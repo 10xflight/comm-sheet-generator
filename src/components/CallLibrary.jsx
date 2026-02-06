@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, ChevronRight, EyeOff, X } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, EyeOff, X, PlusCircle } from 'lucide-react';
 import { BLOCKS, BLOCK_ORDER } from '../data/blocks';
 import { getPermanentHides, getUserBlocks } from '../data/userStore';
 
@@ -46,7 +46,7 @@ export default function CallLibrary({ radioCalls, libSearch, onLibSearchChange, 
         placeholder="Search calls..."
         className="w-full px-3 py-2 mb-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <p className="text-[10px] text-slate-400 mb-2">Click any call to add it to the current sheet</p>
+      <p className="text-[10px] text-slate-400 mb-2">Click + to add a call to the current sheet</p>
       <div className="flex-1 overflow-y-auto">
         {BLOCK_ORDER.map(blockId => {
           const blockCalls = libByBlock[blockId];
@@ -71,14 +71,18 @@ export default function CallLibrary({ radioCalls, libSearch, onLibSearchChange, 
               {isExpanded && blockCalls.map(call => {
                 const isHidden = permanentHides.has(call.id);
                 return (
-                  <div key={call.id} className={`flex items-center gap-1 ${isHidden ? 'opacity-40' : ''}`}>
+                  <div key={call.id} className={`flex items-center gap-1 p-2 mb-1 rounded-lg hover:bg-slate-50 group ${isHidden ? 'opacity-40' : ''}`}>
+                    <span className="flex-1 text-xs text-slate-600 leading-relaxed">
+                      {call.text?.substring(0, 80)}{call.text?.length > 80 ? '...' : ''}
+                    </span>
+                    {isHidden && <EyeOff size={10} className="text-amber-400 shrink-0" />}
                     <button
                       onClick={() => onAddFromLib(call)}
-                      className="flex-1 text-left p-2 text-xs text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg border border-transparent hover:border-blue-200 mb-1 transition-all cursor-pointer"
+                      className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-100 rounded-lg transition-colors shrink-0"
+                      title="Add to sheet"
                     >
-                      {call.text?.substring(0, 80)}{call.text?.length > 80 ? '...' : ''}
+                      <PlusCircle size={14} />
                     </button>
-                    {isHidden && <EyeOff size={10} className="text-amber-400 shrink-0 mr-1" />}
                   </div>
                 );
               })}
@@ -112,13 +116,17 @@ export default function CallLibrary({ radioCalls, libSearch, onLibSearchChange, 
                     {isExpanded && (
                       <>
                         {ub.calls && ub.calls.length > 0 ? ub.calls.map(call => (
-                          <div key={call.id} className="flex items-center gap-1">
+                          <div key={call.id} className="flex items-center gap-1 p-2 mb-1 rounded-lg hover:bg-green-50/50 group">
+                            <span className={`text-[9px] uppercase font-semibold px-1 py-0.5 rounded shrink-0 ${call.type === 'atc' ? 'bg-purple-50 text-purple-500' : call.type === 'note' ? 'bg-slate-100 text-slate-400' : call.type === 'brief' ? 'bg-amber-50 text-amber-500' : 'bg-blue-50 text-blue-500'}`}>{call.type || 'radio'}</span>
+                            <span className="flex-1 text-xs text-slate-600 leading-relaxed">
+                              {call.text?.substring(0, 70)}{call.text?.length > 70 ? '...' : ''}
+                            </span>
                             <button
                               onClick={() => onAddFromLib({ ...call, block: 'custom' })}
-                              className="flex-1 text-left p-2 text-xs text-slate-600 hover:bg-green-50 hover:text-green-700 rounded-lg border border-transparent hover:border-green-200 mb-1 transition-all cursor-pointer"
+                              className="p-1 text-slate-400 hover:text-green-600 hover:bg-green-100 rounded-lg transition-colors shrink-0"
+                              title="Add to sheet"
                             >
-                              <span className={`text-[9px] uppercase font-semibold mr-1.5 px-1 py-0.5 rounded ${call.type === 'atc' ? 'bg-purple-50 text-purple-500' : call.type === 'note' ? 'bg-slate-100 text-slate-400' : call.type === 'brief' ? 'bg-amber-50 text-amber-500' : 'bg-blue-50 text-blue-500'}`}>{call.type || 'radio'}</span>
-                              {call.text?.substring(0, 70)}{call.text?.length > 70 ? '...' : ''}
+                              <PlusCircle size={14} />
                             </button>
                           </div>
                         )) : (

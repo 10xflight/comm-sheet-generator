@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BLOCKS, BLOCK_ORDER, DEPARTURE_BLOCKS, ARRIVAL_BLOCKS, ENROUTE_BLOCKS, EMERGENCY_BLOCKS } from './data/blocks';
 import { DEFAULT_AIRPORTS, loadAirports } from './data/airports';
 import { loadRadioCalls, getRadioCalls } from './data/radioCalls';
-import { getAbbr } from './utils/callSign';
+import { getAbbr, getShort } from './utils/callSign';
 import { getCallOverrides, getTextOverrides, getUserCalls, getPermanentHides, getSeqOverrides, getBlockOverrides, addCallSignHistory, deleteCallSignHistory, getCallSignHistory, setCallOverride, removeCallOverride, setSeqOverride, getSavedProjects, saveProject, deleteProject, getPendingCalls, addUserCall, updateUserCall, getUserBlocks, addUserBlock, deleteUserBlock, getBlockSeqOverrides, setBlockSeqOverride, setBlockSeqOverrides } from './data/userStore';
 import Header from './components/Header';
 import ConfigPanel from './components/ConfigPanel';
@@ -13,15 +13,21 @@ import ExportModal from './components/ExportModal';
 export default function App() {
   const [mode, setMode] = useState('template');
   const [callSign, setCallSign] = useState('');
+  const [csHistory, setCsHistory] = useState(() => getCallSignHistory());
   const [flightRules, setFlightRules] = useState('vfr');
   const [route, setRoute] = useState([
-    { airport: DEFAULT_AIRPORTS[0], type: 'dep', intention: null },
-    { airport: DEFAULT_AIRPORTS[4], type: 'arr', intention: null }
+    { airport: null, type: 'dep', intention: null },
+    { airport: null, type: 'arr', intention: null }
   ]);
   const [calls, setCalls] = useState([]);
   const [hidden, setHidden] = useState(new Set());
   const [hiddenBlocks, setHiddenBlocks] = useState(new Set());
-  const [collapsed, setCollapsed] = useState(new Set());
+  const [collapsed, setCollapsed] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('csg_generatorCollapsed');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch { return new Set(); }
+  });
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState('');
   const [editCallData, setEditCallData] = useState(null);
@@ -47,6 +53,7 @@ export default function App() {
   const [saveAsName, setSaveAsName] = useState('');
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [blockInstances, setBlockInstances] = useState([]);
+  const [libVersion, setLibVersion] = useState(0);
 
   useEffect(() => {
     Promise.all([loadRadioCalls(), loadAirports()]).then(() => {
@@ -69,14 +76,16 @@ export default function App() {
         }
       } catch {}
       setRadioCallsLoaded(true);
-      // Restore scroll position after render
-      requestAnimationFrame(() => {
-        const scrollY = sessionStorage.getItem('csg_scrollY');
-        if (scrollY) {
-          window.scrollTo(0, parseInt(scrollY, 10));
-          sessionStorage.removeItem('csg_scrollY');
-        }
-      });
+      // Restore scroll position after render — delay to ensure content has rendered
+      const scrollY = sessionStorage.getItem('csg_scrollY');
+      if (scrollY) {
+        const target = parseInt(scrollY, 10);
+        sessionStorage.removeItem('csg_scrollY');
+        // Use requestAnimationFrame + timeout to ensure layout has fully settled
+        requestAnimationFrame(() => {
+          setTimeout(() => window.scrollTo(0, target), 50);
+        });
+      }
     });
   }, []);
 
@@ -86,8 +95,22 @@ export default function App() {
       sessionStorage.setItem('csg_scrollY', String(window.scrollY));
     };
     window.addEventListener('hashchange', saveScroll);
-    return () => window.removeEventListener('hashchange', saveScroll);
+    window.addEventListener('beforeunload', saveScroll);
+    // Also save periodically while on page (in case hashchange fires too late)
+    const interval = setInterval(saveScroll, 1000);
+    return () => {
+      window.removeEventListener('hashchange', saveScroll);
+      window.removeEventListener('beforeunload', saveScroll);
+      clearInterval(interval);
+    };
   }, []);
+
+  // Persist collapsed blocks to sessionStorage
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('csg_generatorCollapsed', JSON.stringify([...collapsed]));
+    } catch {}
+  }, [collapsed]);
 
   // Persist session state so it survives navigation to library editor
   useEffect(() => {
@@ -115,7 +138,7 @@ export default function App() {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
   };
-  const handleDrop = (e, targetId, position) => {
+  const handleDrop = (e, targetId, position, groupWithTarget = true) => {
     e.preventDefault();
     if (draggedId && draggedId !== targetId) {
       pushUndo();
@@ -130,6 +153,23 @@ export default function App() {
       let newIndex = newCalls.findIndex(c => c.id === targetId);
       if (position === 'below') newIndex += 1;
       newCalls.splice(newIndex, 0, removed);
+
+      // Assign group based on groupWithTarget
+      if (groupWithTarget) {
+        // Same group as the target call (tight spacing)
+        // If target has no group yet, create one and assign to both
+        const sharedGroup = targetCall.group || `grp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+        removed.group = sharedGroup;
+        // Also update the target call to have this group if it didn't
+        if (!targetCall.group) {
+          const targetIdx = newCalls.findIndex(c => c.id === targetId);
+          if (targetIdx >= 0) newCalls[targetIdx].group = sharedGroup;
+        }
+      } else {
+        // New group (more spacing) - unique ID that differs from adjacent calls
+        removed.group = `grp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+      }
+
       newCalls.forEach((c, i) => { c.seq = i + 1; });
       // Persist new sequence for the dragged call so it sticks on regenerate
       const movedCall = newCalls.find(c => c.id === draggedId);
@@ -207,9 +247,11 @@ export default function App() {
   const depFlightType = `${flightRules}_${depTowered ? 't' : 'nt'}`;
   const arrFlightType = `${flightRules}_${arrTowered ? 't' : 'nt'}`;
 
+  const csShort = getShort(callSign);
   const vars = {
     CS_Full: callSign,
     CS_Abbr: abbr,
+    CS_Short: csShort,
     Dep_Name: depApt?.abridged || depApt?.name || '[Departure]',
     Dep_Abridged: depApt?.abridged || '[Departure]',
     Dep_Traffic: depApt ? `${depApt.abridged} Traffic` : '[Departure] Traffic',
@@ -240,7 +282,11 @@ export default function App() {
     const allCalls = [];
     const instances = [];
 
+    const blkOvr = getBlockOverrides();
     const addBlockInst = (blockType, airport, flightType, legIdx, legVars, suffix) => {
+      // Skip blocks hidden in library editor
+      if (blkOvr[blockType]?.hidden) return;
+
       const blockKey = `${blockType}_${suffix}_L${legIdx}`;
       const matched = RADIO_CALLS
         .filter(c => c.block === blockType && c.applies.includes(flightType))
@@ -292,7 +338,7 @@ export default function App() {
       const toFlightType = `${flightRules}_${toTowered ? 't' : 'nt'}`;
 
       const legVars = {
-        CS_Full: callSign || '[Call Sign]', CS_Abbr: abbr || '[Call Sign]',
+        CS_Full: callSign || '[Call Sign]', CS_Abbr: abbr || '[Call Sign]', CS_Short: csShort || '[###]',
         Dep_Name: fromStop.airport.abridged || fromStop.airport.name, Dep_Abridged: fromStop.airport.abridged,
         Dep_Traffic: `${fromStop.airport.abridged} Traffic`,
         Arr_Name: toStop.airport.abridged || toStop.airport.name, Arr_Abridged: toStop.airport.abridged,
@@ -336,11 +382,19 @@ export default function App() {
       });
     });
 
-    // Apply overrides
+    // Apply overrides (text, type, applies, group)
     const callOverrides = getCallOverrides();
     const seqOvr = getSeqOverrides();
     allCalls.forEach(call => {
-      if (call._baseId && callOverrides[call._baseId]) { const o = callOverrides[call._baseId]; if (o.text) call.text = o.text; if (o.type) call.type = o.type; if (o.applies) call.applies = o.applies; call._hasOverride = true; call._overrideBaseId = call._baseId; }
+      if (call._baseId && callOverrides[call._baseId]) {
+        const o = callOverrides[call._baseId];
+        if (o.text) call.text = o.text;
+        if (o.type) call.type = o.type;
+        if (o.applies) call.applies = o.applies;
+        if (o.group) call.group = o.group;
+        call._hasOverride = true;
+        call._overrideBaseId = call._baseId;
+      }
       if (call._baseId && seqOvr[call._baseId]) call.seq = seqOvr[call._baseId];
     });
 
@@ -518,7 +572,7 @@ export default function App() {
       const target = blockDef ? (depTowered ? blockDef.targetTowered : blockDef.targetNonTowered) || '' : '';
       setBlockInstances(prev => [...prev, {
         key: newKey, blockType: call.block, name, contextLabel: '', target,
-        isTowered: depTowered, isCustom: false, editable: true,
+        isTowered: depTowered, isCustom: true, editable: true,
       }]);
       targetBlockKey = newKey;
     }
@@ -589,12 +643,23 @@ export default function App() {
     setCalls(calls.filter(c => c.id !== id));
   };
 
-  const addBlockInstance = (blockType, customName, savedCalls, savedTarget) => {
+  const addBlockInstance = (blockType, customName, savedCalls, savedTarget, batchNames = null) => {
     pushUndo();
     const key = `${blockType || 'custom'}_user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
     const blockDef = BLOCKS[blockType];
-    const name = customName || blockDef?.name || blockType;
+    let name = customName || blockDef?.name || blockType;
     const target = savedTarget || (blockDef ? (depTowered ? blockDef.targetTowered : blockDef.targetNonTowered) || '' : '');
+    // Auto-increment name if duplicate exists (check both existing blocks and batch being added)
+    const existingNames = new Set(blockInstances.map(i => i.name));
+    if (batchNames) batchNames.forEach(n => existingNames.add(n));
+    if (existingNames.has(name)) {
+      let n = 1;
+      const baseName = name.replace(/ \(\d+\)$/, ''); // Strip existing (N) suffix
+      while (existingNames.has(`${baseName} (${n})`)) n++;
+      name = `${baseName} (${n})`;
+    }
+    // Track this name for batch operations
+    if (batchNames) batchNames.add(name);
     setBlockInstances(prev => [...prev, {
       key, blockType: blockType || 'custom', name, contextLabel: '', target,
       isTowered: depTowered, isCustom: !blockType || !blockDef, editable: true,
@@ -615,11 +680,12 @@ export default function App() {
     const inst = blockInstances.find(i => i.key === blockKey);
     if (!inst) return null;
     const existing = getUserBlocks();
-    // Auto-increment name if duplicate: "Enroute" → "Enroute (2)" → "Enroute (3)"
+    // Auto-increment name if duplicate: "Startup" → "Startup (1)", "Startup (1)" → "Startup (2)"
     let saveName = inst.name;
-    const names = new Set(existing.map(b => b.name));
+    const defaultNames = Object.values(BLOCKS).map(b => b.name);
+    const names = new Set([...defaultNames, ...existing.map(b => b.name)]);
     if (names.has(saveName)) {
-      let n = 2;
+      let n = 1;
       while (names.has(`${inst.name} (${n})`)) n++;
       saveName = `${inst.name} (${n})`;
     }
@@ -631,13 +697,20 @@ export default function App() {
     const idx = blockInstances.indexOf(inst);
     const blockId = `UBLK_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
     addUserBlock({ id: blockId, name: saveName, target: inst.target || '', seq: idx + 1, calls: blockCalls });
+    setLibVersion(v => v + 1);
     return blockId;
   };
 
   const unsaveBlockFromLibrary = (blockName) => {
     const existing = getUserBlocks();
     const match = existing.find(b => b.name === blockName);
-    if (match) deleteUserBlock(match.id);
+    if (match) { deleteUserBlock(match.id); setLibVersion(v => v + 1); }
+  };
+
+  const deleteBlockInstance = (blockKey) => {
+    pushUndo();
+    setBlockInstances(prev => prev.filter(inst => inst.key !== blockKey));
+    setCalls(prev => prev.filter(c => c._blockKey !== blockKey));
   };
 
   const renameBlockInstance = (blockKey, newName) => {
@@ -693,22 +766,34 @@ export default function App() {
 
   // Pick up pending calls from library editor
   useEffect(() => {
+    // Wait for session state to be restored before checking pending calls
+    if (!radioCallsLoaded) return;
     const checkPending = () => {
       const pending = getPendingCalls();
       if (pending.length > 0) {
         pushUndo();
-        setCalls(prev => [...prev, ...pending.map(c => ({
-          ...c,
-          _blockKey: blockInstances.find(i => i.blockType === c.block)?.key || c.block,
-          userAdded: true,
-          taxiRoutes: c.isTaxiBrief ? [{ runway: '', route: '' }] : undefined,
-        }))]);
+        const blockPending = pending.filter(c => c._addBlock);
+        const callPending = pending.filter(c => !c._addBlock);
+        // Add individual calls
+        if (callPending.length > 0) {
+          setCalls(prev => [...prev, ...callPending.map(c => ({
+            ...c,
+            _blockKey: blockInstances.find(i => i.blockType === c.block)?.key || c.block,
+            userAdded: true,
+            taxiRoutes: c.isTaxiBrief ? [{ runway: '', route: '' }] : undefined,
+          }))]);
+        }
+        // Add entire blocks - track names locally to handle duplicates in same batch
+        const addedNames = new Set();
+        blockPending.forEach(bp => {
+          addBlockInstance(null, bp.name, bp.calls || [], bp.target, addedNames);
+        });
       }
     };
     checkPending();
     window.addEventListener('focus', checkPending);
     return () => window.removeEventListener('focus', checkPending);
-  }, [blockInstances]);
+  }, [blockInstances, radioCallsLoaded]);
 
   // Auto-scroll when dragging near viewport edges
   useEffect(() => {
@@ -763,12 +848,10 @@ export default function App() {
         historyLen={history.length}
         redoLen={redoStack.length}
         showLib={showLib}
-        hideAtc={hideAtc}
         showRefKey={showRefKey}
         onUndo={undo}
         onRedo={redo}
         onToggleLib={() => setShowLib(!showLib)}
-        onToggleAtc={() => setHideAtc(!hideAtc)}
         onToggleRefKey={() => {
           const next = !showRefKey;
           setShowRefKey(next);
@@ -788,6 +871,7 @@ export default function App() {
       <main className="max-w-5xl mx-auto flex gap-6">
         {showLib && (
           <CallLibrary
+            key={libVersion}
             radioCalls={getRadioCalls()}
             libSearch={libSearch}
             onLibSearchChange={setLibSearch}
@@ -829,12 +913,12 @@ export default function App() {
             route={route}
             abbr={abbr}
             callSignWarning={callSignWarning}
-            callSignHistory={getCallSignHistory()}
+            callSignHistory={csHistory}
             onCallSignChange={setCallSign}
             onFlightRulesChange={setFlightRules}
             onRouteChange={(r) => { pushUndo(); setRoute(r); }}
-            onSaveCallSign={() => addCallSignHistory(callSign)}
-            onDeleteCallSign={(cs) => deleteCallSignHistory(cs)}
+            onSaveCallSign={() => { addCallSignHistory(callSign); setCsHistory(getCallSignHistory()); }}
+            onDeleteCallSign={(cs) => { deleteCallSignHistory(cs); setCsHistory(getCallSignHistory()); }}
           />
 
           <button onClick={generate} className="w-full py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all mb-6 text-lg">
@@ -868,8 +952,15 @@ export default function App() {
                       Unhide All ({hidden.size})
                     </button>
                   )}
+                  <button
+                    onClick={() => setHideAtc(!hideAtc)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${!hideAtc ? 'bg-purple-100 text-purple-600' : 'text-slate-400 bg-slate-100 hover:bg-slate-200'}`}
+                    title={hideAtc ? "Show ATC Responses" : "Hide ATC Responses"}
+                  >
+                    ATC
+                  </button>
                   <span className="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                    {calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block)).length} visible
+                    {calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block) && !(hideAtc && c.type === 'atc')).length} visible
                   </span>
                 </div>
               </div>
@@ -925,6 +1016,8 @@ export default function App() {
                   newCallId={newCallId}
                   onSaveBlockToLibrary={saveBlockToLibrary}
                   onUnsaveBlockFromLibrary={unsaveBlockFromLibrary}
+                  isCustom={inst.isCustom}
+                  onDeleteBlock={deleteBlockInstance}
                 />
               ))}
 
