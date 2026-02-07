@@ -83,13 +83,13 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   // Build filename
   const routeIds = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join('-');
   const fileName = isLibraryExport
-    ? `RadioCallsLibrary_${formatDateForFilename(today)}`
+    ? `MasterCommSheetLibrary_${formatDateForFilename(today)}`
     : `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
   // Header text for page header (pages 2+) - use dash for font compatibility
   const routeArrows = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join(' - ');
   const headerText = isLibraryExport
-    ? `${callSign || 'Radio Calls Library'} | ${formatDate(today)}`
+    ? `${callSign || 'Master Comm Sheet Library'} | ${formatDate(today)}`
     : `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
   const depApt = route?.find(s => s.type === 'dep')?.airport;
@@ -106,7 +106,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(0);
-  doc.text(isLibraryExport ? 'RADIO CALLS LIBRARY' : `COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
+  doc.text(isLibraryExport ? 'MASTER COMM SHEET LIBRARY' : `COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
   y += 20;
 
   // Empty line
