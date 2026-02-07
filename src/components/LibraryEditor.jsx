@@ -845,7 +845,7 @@ export default function LibraryEditor() {
       id: `${c.id}_lib`,
     }));
     return {
-      callSign: 'Full Library',
+      callSign: 'Master Library',
       flightRules: 'all',
       route: [],
       blockInstances: instances,
