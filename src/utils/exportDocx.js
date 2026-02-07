@@ -59,7 +59,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
   const isLibraryExportForName = !route || route.length === 0;
   const routeIds = isLibraryExportForName ? '' : route.map(s => s.airport?.id || '???').join('-');
   const fileName = isLibraryExportForName
-    ? `MasterCommSheetLibrary_${formatDateForFilename(today)}`
+    ? `CommSheet_Master_Library_${today.toISOString().slice(0, 10)}`
     : `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
   // Check if this is a library export (no route)
@@ -68,7 +68,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
   // Header text for page header
   const routeArrows = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join(' → ');
   const headerText = isLibraryExport
-    ? `${callSign || 'Master Comm Sheet Library'} | ${formatDate(today)}`
+    ? `${callSign || 'Master Library'} | ${formatDate(today)}`
     : `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
   const depApt = route?.find(s => s.type === 'dep')?.airport;

@@ -83,13 +83,13 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   // Build filename
   const routeIds = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join('-');
   const fileName = isLibraryExport
-    ? `MasterCommSheetLibrary_${formatDateForFilename(today)}`
+    ? `CommSheet_Master_Library_${today.toISOString().slice(0, 10)}`
     : `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
   // Header text for page header (pages 2+) - use dash for font compatibility
   const routeArrows = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join(' - ');
   const headerText = isLibraryExport
-    ? `${callSign || 'Master Comm Sheet Library'} | ${formatDate(today)}`
+    ? `${callSign || 'Master Library'} | ${formatDate(today)}`
     : `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
   const depApt = route?.find(s => s.type === 'dep')?.airport;
