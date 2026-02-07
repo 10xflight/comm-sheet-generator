@@ -36,32 +36,6 @@ function parseTextSegments(text) {
   return segments.length > 0 ? segments : [{ text, bold: false }];
 }
 
-// Render text with mixed bold segments
-function renderMixedText(doc, text, x, y, maxWidth, baseFont, fontSize, color) {
-  const segments = parseTextSegments(text);
-  let currentX = x;
-
-  doc.setFontSize(fontSize);
-  doc.setTextColor(...(Array.isArray(color) ? color : [color, color, color]));
-
-  segments.forEach(seg => {
-    doc.setFont(baseFont, seg.bold ? 'bold' : 'normal');
-    const segWidth = doc.getTextWidth(seg.text);
-
-    // Check if we need to wrap
-    if (currentX + segWidth > x + maxWidth && currentX > x) {
-      // Simple wrap - just continue on next line
-      currentX = x;
-      y += fontSize * 1.2;
-    }
-
-    doc.text(seg.text, currentX, y);
-    currentX += segWidth;
-  });
-
-  return y;
-}
-
 export function exportToPdf({ callSign, flightRules, route, blockInstances, calls, hidden, hiddenBlocks, vars, abbr }) {
   const visible = calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block));
   const byBlockKey = visible.reduce((acc, c) => {
@@ -76,7 +50,9 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   const marginL = 40;
   const marginR = 40;
   const contentW = pageW - marginL - marginR;
-  let y = 40;
+  const headerY = 25;
+  const footerY = pageH - 25;
+  let y = 50; // Start below header area
 
   const today = new Date();
 
@@ -84,22 +60,43 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   const routeIds = route.map(s => s.airport?.id || '???').join('-');
   const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
-  const checkPage = (needed = 40) => {
-    if (y + needed > pageH - 50) {
-      doc.addPage();
-      y = 40;
-    }
-  };
-
-  // Header: N12345 | VFR | KBED → KPWM → KBED | Feb 6, 2026
+  // Header text for page header
   const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
   const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
+  const depApt = route.find(s => s.type === 'dep')?.airport;
+  const arrApt = route.find(s => s.type === 'arr')?.airport;
+
+  const checkPage = (needed = 40) => {
+    if (y + needed > pageH - 60) {
+      doc.addPage();
+      y = 50;
+    }
+  };
+
+  // Title
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
+  doc.setFontSize(16);
   doc.setTextColor(0);
-  doc.text(headerText, marginL, y);
-  y += 20;
+  doc.text(`COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
+  y += 22;
+
+  // Flight info
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor(100);
+  const info = [
+    `Flight Rules: ${flightRules.toUpperCase()}`,
+    `Route: ${routeArrows}`,
+    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
+    `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
+  ];
+  info.forEach(line => {
+    doc.text(line, marginL, y);
+    y += 13;
+  });
+
+  y += 6;
 
   // Divider
   doc.setDrawColor(60);
@@ -116,18 +113,18 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     checkPage(60);
 
     // Empty line before block
-    y += 12;
+    y += 11;
 
     const label = inst.contextLabel ? `${inst.name} ${inst.contextLabel}` : inst.name;
 
     // Block header
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
+    doc.setFontSize(12);
     doc.setTextColor(30);
     doc.text(label, marginL, y);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(9);
     doc.setTextColor(140);
     const targetW = doc.getTextWidth(inst.target || '');
     doc.text(inst.target || '', pageW - marginR - targetW, y);
@@ -136,7 +133,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     doc.setDrawColor(200);
     doc.setLineWidth(0.3);
     doc.line(marginL, y, pageW - marginR, y);
-    y += 10;
+    y += 11;
 
     let prevCall = null;
     blockCalls.forEach(call => {
@@ -150,24 +147,24 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         (!call.group && prevCall.group)
       );
       if (isNewGroup) {
-        y += 12; // Empty line between groups
+        y += 11; // Empty line between groups
       }
       prevCall = call;
 
       if (call.isTaxiBrief && call.taxiRoutes?.length) {
         checkPage(40);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
+        doc.setFontSize(11);
         doc.setTextColor(40);
         const lines = doc.splitTextToSize(text, contentW);
         doc.text(lines, marginL, y);
-        y += lines.length * 12 + 4;
+        y += lines.length * 13 + 4;
 
         doc.setFont('helvetica', 'normal');
         call.taxiRoutes.filter(r => r.runway && r.route).forEach(r => {
           checkPage(14);
           doc.text(`RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, marginL + 20, y);
-          y += 12;
+          y += 13;
         });
         return;
       }
@@ -175,58 +172,57 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
       checkPage(18);
       if (call.type === 'atc') {
         doc.setFont('helvetica', 'italic');
-        doc.setFontSize(9);
+        doc.setFontSize(11);
         doc.setTextColor(120);
         const atcMaxW = contentW * 0.5;
         const lines = doc.splitTextToSize(text, atcMaxW);
         const textW = Math.max(...lines.map(l => doc.getTextWidth(l)));
         doc.text(lines, pageW - marginR - textW, y);
-        y += lines.length * 11;
+        y += lines.length * 13;
       } else if (call.type === 'note') {
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
+        doc.setFontSize(9);
         doc.setTextColor(120);
         doc.text('NOTE ', marginL, y);
         const noteW = doc.getTextWidth('NOTE ');
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
+        doc.setFontSize(11);
         doc.setTextColor(30);
         const lines = doc.splitTextToSize(text, contentW - noteW);
         if (lines.length > 0) {
           doc.text(lines[0], marginL + noteW, y);
           for (let li = 1; li < lines.length; li++) {
-            y += 10;
+            y += 13;
             doc.text(lines[li], marginL, y);
           }
         }
-        y += 10;
+        y += 13;
       } else if (call.type === 'brief') {
         const briefLines = text.split('\n');
         briefLines.forEach((line, i) => {
           checkPage(14);
+          doc.setFontSize(11);
           if (i === 0) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9);
             doc.setTextColor(40);
           } else {
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
             doc.setTextColor(80);
           }
           const displayLine = i === 0 ? `${line} (Modify as Needed)` : `    ${line}`;
           const wrapped = doc.splitTextToSize(displayLine, contentW);
           doc.text(wrapped, marginL, y);
-          y += wrapped.length * 11;
+          y += wrapped.length * 13;
         });
       } else {
         // Radio call - render with bold brackets
-        doc.setFontSize(10);
+        doc.setFontSize(11);
         doc.setTextColor(30);
 
         // Parse segments and render with mixed formatting
         const segments = parseTextSegments(text);
         let currentX = marginL;
-        const lineHeight = 12;
+        const lineHeight = 13;
 
         segments.forEach(seg => {
           doc.setFont('helvetica', seg.bold ? 'bold' : 'normal');
@@ -252,19 +248,27 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
       }
     });
 
-    y += 10;
+    y += 11;
   });
 
-  // Add page number footers to all pages (just "1 of 3")
+  // Add headers and footers to all pages
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
+
+    // Header
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    doc.setFontSize(11);
+    doc.setTextColor(140);
+    const headerW = doc.getTextWidth(headerText);
+    doc.text(headerText, (pageW - headerW) / 2, headerY);
+
+    // Footer - page numbers
+    doc.setFontSize(11);
     doc.setTextColor(170);
     const pageText = `${i} of ${totalPages}`;
     const pageTextW = doc.getTextWidth(pageText);
-    doc.text(pageText, (pageW - pageTextW) / 2, pageH - 20);
+    doc.text(pageText, (pageW - pageTextW) / 2, footerY);
   }
 
   doc.save(`${fileName}.pdf`);

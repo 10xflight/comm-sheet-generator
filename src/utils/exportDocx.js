@@ -1,7 +1,7 @@
 import {
   Document, Packer, Paragraph, TextRun, HeadingLevel,
   AlignmentType, BorderStyle, TabStopPosition, TabStopType,
-  Footer, PageNumber, NumberFormat
+  Header, Footer, PageNumber, NumberFormat
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { subVars } from './callSign';
@@ -59,16 +59,37 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
   const routeIds = route.map(s => s.airport?.id || '???').join('-');
   const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
-  // Header: N12345 | VFR | KBED → KPWM → KBED | Feb 6, 2026
+  // Header text for page header
   const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
   const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
+  const depApt = route.find(s => s.type === 'dep')?.airport;
+  const arrApt = route.find(s => s.type === 'arr')?.airport;
+
+  // Title
   children.push(new Paragraph({
-    children: [new TextRun({ text: headerText, bold: true, size: 28, font: 'Calibri' })],
+    children: [new TextRun({ text: `COMM SHEET: ${callSign || '[Call Sign]'}`, bold: true, size: 32, font: 'Calibri' })],
     spacing: { after: 0 },
   }));
 
-  // Empty line after header
+  // Empty line
+  children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
+
+  // Flight info
+  const infoLines = [
+    `Flight Rules: ${flightRules.toUpperCase()}`,
+    `Route: ${routeArrows}`,
+    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
+    `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
+  ];
+  infoLines.forEach(line => {
+    children.push(new Paragraph({
+      children: [new TextRun({ text: line, size: 22, font: 'Calibri', color: '555555' })],
+      spacing: { after: 0 },
+    }));
+  });
+
+  // Empty line
   children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
 
   // Divider line
@@ -120,12 +141,12 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
 
       if (call.isTaxiBrief && call.taxiRoutes?.length) {
         children.push(new Paragraph({
-          children: parseTextWithBrackets(text, { bold: true, size: 20, font: 'Calibri' }),
+          children: parseTextWithBrackets(text, { bold: true, size: 22, font: 'Calibri' }),
           spacing: { after: 0 },
         }));
         call.taxiRoutes.filter(r => r.runway && r.route).forEach(r => {
           children.push(new Paragraph({
-            children: [new TextRun({ text: `    RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, size: 20, font: 'Calibri', color: '333333' })],
+            children: [new TextRun({ text: `    RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, size: 22, font: 'Calibri', color: '333333' })],
             indent: { left: 360 },
             spacing: { after: 0 },
           }));
@@ -135,7 +156,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
 
       if (call.type === 'atc') {
         children.push(new Paragraph({
-          children: parseTextWithBrackets(text, { italics: true, size: 20, font: 'Calibri', color: '777777' }),
+          children: parseTextWithBrackets(text, { italics: true, size: 22, font: 'Calibri', color: '777777' }),
           alignment: AlignmentType.RIGHT,
           indent: { left: 4320 },
           spacing: { after: 0 },
@@ -144,22 +165,22 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
         children.push(new Paragraph({
           children: [
             new TextRun({ text: 'NOTE ', bold: true, size: 18, font: 'Calibri', color: '999999' }),
-            ...parseTextWithBrackets(text, { size: 20, font: 'Calibri', color: '333333' }),
+            ...parseTextWithBrackets(text, { size: 22, font: 'Calibri', color: '333333' }),
           ],
           spacing: { after: 0 },
         }));
       } else if (call.type === 'brief') {
-        // Multi-line briefs
+        // Multi-line briefs - all at size 22 (11pt)
         const lines = text.split('\n');
         lines.forEach((line, i) => {
           const baseStyle = i === 0
-            ? { bold: true, size: 20, font: 'Calibri', color: '333333' }
-            : { size: 20, font: 'Calibri', color: '555555' };
+            ? { bold: true, size: 22, font: 'Calibri', color: '333333' }
+            : { size: 22, font: 'Calibri', color: '555555' };
 
           children.push(new Paragraph({
             children: [
               ...parseTextWithBrackets(i === 0 ? line : `    ${line}`, baseStyle),
-              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 16, font: 'Calibri', color: 'CC8800' })] : []),
+              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 18, font: 'Calibri', color: 'CC8800' })] : []),
             ],
             spacing: { after: 0 },
             border: i === 0 ? { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'EEEEEE' } } : undefined,
@@ -182,14 +203,27 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           margin: { top: 720, right: 720, bottom: 720, left: 720 },
         },
       },
+      headers: {
+        default: new Header({
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({ text: headerText, size: 22, font: 'Calibri', color: '888888' }),
+              ],
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 100 },
+            }),
+          ],
+        }),
+      },
       footers: {
         default: new Footer({
           children: [
             new Paragraph({
               children: [
-                new TextRun({ children: [PageNumber.CURRENT], size: 14, font: 'Calibri', color: 'AAAAAA' }),
-                new TextRun({ text: ' of ', size: 14, font: 'Calibri', color: 'AAAAAA' }),
-                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, font: 'Calibri', color: 'AAAAAA' }),
+                new TextRun({ children: [PageNumber.CURRENT], size: 22, font: 'Calibri', color: 'AAAAAA' }),
+                new TextRun({ text: ' of ', size: 22, font: 'Calibri', color: 'AAAAAA' }),
+                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 22, font: 'Calibri', color: 'AAAAAA' }),
               ],
               alignment: AlignmentType.CENTER,
             }),
