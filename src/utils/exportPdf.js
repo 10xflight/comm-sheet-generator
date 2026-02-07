@@ -2,6 +2,66 @@ import jsPDF from 'jspdf';
 import { subVars } from './callSign';
 import { parseTaxiRoute } from './taxiParser';
 
+// Format date as "Feb 6, 2026"
+function formatDate(date) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Format date for filename as "Feb-6-2026"
+function formatDateForFilename(date) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]}-${date.getDate()}-${date.getFullYear()}`;
+}
+
+// Render text with [brackets] bold - returns array of {text, bold} segments
+function parseTextSegments(text) {
+  const segments = [];
+  const regex = /\[([^\]]+)\]/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ text: text.slice(lastIndex, match.index), bold: false });
+    }
+    segments.push({ text: `[${match[1]}]`, bold: true });
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push({ text: text.slice(lastIndex), bold: false });
+  }
+
+  return segments.length > 0 ? segments : [{ text, bold: false }];
+}
+
+// Render text with mixed bold segments
+function renderMixedText(doc, text, x, y, maxWidth, baseFont, fontSize, color) {
+  const segments = parseTextSegments(text);
+  let currentX = x;
+
+  doc.setFontSize(fontSize);
+  doc.setTextColor(...(Array.isArray(color) ? color : [color, color, color]));
+
+  segments.forEach(seg => {
+    doc.setFont(baseFont, seg.bold ? 'bold' : 'normal');
+    const segWidth = doc.getTextWidth(seg.text);
+
+    // Check if we need to wrap
+    if (currentX + segWidth > x + maxWidth && currentX > x) {
+      // Simple wrap - just continue on next line
+      currentX = x;
+      y += fontSize * 1.2;
+    }
+
+    doc.text(seg.text, currentX, y);
+    currentX += segWidth;
+  });
+
+  return y;
+}
+
 export function exportToPdf({ callSign, flightRules, route, blockInstances, calls, hidden, hiddenBlocks, vars, abbr }) {
   const visible = calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block));
   const byBlockKey = visible.reduce((acc, c) => {
@@ -18,7 +78,11 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   const contentW = pageW - marginL - marginR;
   let y = 40;
 
-  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '_') || 'untitled'}_${new Date().toISOString().slice(0, 10)}`;
+  const today = new Date();
+
+  // Build route string for filename (KBED-KPWM-KBED)
+  const routeIds = route.map(s => s.airport?.id || '???').join('-');
+  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
   const checkPage = (needed = 40) => {
     if (y + needed > pageH - 50) {
@@ -27,26 +91,15 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     }
   };
 
-  // Title
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.text(`COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
-  y += 22;
+  // Header: N12345 | VFR | KBED → KPWM → KBED | Feb 6, 2026
+  const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
+  const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
-  // Info
-  const depApt = route.find(s => s.type === 'dep')?.airport;
-  const arrApt = route.find(s => s.type === 'arr')?.airport;
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(100);
-  const info = [
-    `Flight Rules: ${flightRules.toUpperCase()}    Route: ${route.map(s => s.airport?.id || '???').join(' → ')}`,
-    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})    Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
-  ];
-  info.forEach(line => {
-    doc.text(line, marginL, y);
-    y += 12;
-  });
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(0);
+  doc.text(headerText, marginL, y);
+  y += 20;
 
   // Divider
   doc.setDrawColor(60);
@@ -61,6 +114,9 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     if (!blockCalls?.length) return;
 
     checkPage(60);
+
+    // Empty line before block
+    y += 12;
 
     const label = inst.contextLabel ? `${inst.name} ${inst.contextLabel}` : inst.name;
 
@@ -87,14 +143,14 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
       const callVars = call._legVars || vars;
       let text = subVars(call.text || '', callVars);
 
-      // Add spacing between different groups (no line, just breathing room)
+      // Check if new group (needs extra space)
       const isNewGroup = prevCall && (
         (call.group && prevCall.group && call.group !== prevCall.group) ||
         (call.group && !prevCall.group) ||
         (!call.group && prevCall.group)
       );
       if (isNewGroup) {
-        y += 10; // Just spacing, no line
+        y += 12; // Empty line between groups
       }
       prevCall = call;
 
@@ -125,7 +181,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         const lines = doc.splitTextToSize(text, atcMaxW);
         const textW = Math.max(...lines.map(l => doc.getTextWidth(l)));
         doc.text(lines, pageW - marginR - textW, y);
-        y += lines.length * 11; // 0pt extra spacing
+        y += lines.length * 11;
       } else if (call.type === 'note') {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8);
@@ -143,7 +199,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
             doc.text(lines[li], marginL, y);
           }
         }
-        y += 10; // 0pt extra spacing
+        y += 10;
       } else if (call.type === 'brief') {
         const briefLines = text.split('\n');
         briefLines.forEach((line, i) => {
@@ -160,30 +216,55 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
           const displayLine = i === 0 ? `${line} (Modify as Needed)` : `    ${line}`;
           const wrapped = doc.splitTextToSize(displayLine, contentW);
           doc.text(wrapped, marginL, y);
-          y += wrapped.length * 11; // 0pt extra spacing
+          y += wrapped.length * 11;
         });
       } else {
-        doc.setFont('helvetica', 'normal');
+        // Radio call - render with bold brackets
         doc.setFontSize(10);
         doc.setTextColor(30);
-        const lines = doc.splitTextToSize(text, contentW);
-        doc.text(lines, marginL, y);
-        y += lines.length * 12; // 0pt extra spacing (tighter line height)
+
+        // Parse segments and render with mixed formatting
+        const segments = parseTextSegments(text);
+        let currentX = marginL;
+        const lineHeight = 12;
+
+        segments.forEach(seg => {
+          doc.setFont('helvetica', seg.bold ? 'bold' : 'normal');
+
+          // Handle text that might wrap
+          const words = seg.text.split(' ');
+          words.forEach((word, wi) => {
+            const wordWithSpace = wi < words.length - 1 ? word + ' ' : word;
+            const wordWidth = doc.getTextWidth(wordWithSpace);
+
+            if (currentX + wordWidth > pageW - marginR && currentX > marginL) {
+              y += lineHeight;
+              currentX = marginL;
+              checkPage(lineHeight);
+            }
+
+            doc.text(wordWithSpace, currentX, y);
+            currentX += wordWidth;
+          });
+        });
+
+        y += lineHeight;
       }
     });
 
     y += 10;
   });
 
-  // Add page number footers to all pages
+  // Add page number footers to all pages (just "1 of 3")
   const totalPages = doc.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
+    doc.setFontSize(8);
     doc.setTextColor(170);
-    doc.text(`${fileName}`, marginL, pageH - 20);
-    doc.text(`${i} of ${totalPages}`, pageW - marginR, pageH - 20, { align: 'right' });
+    const pageText = `${i} of ${totalPages}`;
+    const pageTextW = doc.getTextWidth(pageText);
+    doc.text(pageText, (pageW - pageTextW) / 2, pageH - 20);
   }
 
   doc.save(`${fileName}.pdf`);

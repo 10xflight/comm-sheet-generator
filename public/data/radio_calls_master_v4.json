@@ -1583,7 +1583,7 @@
       "group": "ff_cold_call",
       "sequence": 1,
       "comm_type": "radio",
-      "text": "[Center] Approach, {{Call_Sign_Full}}, VFR request.",
+      "text": "[Center/Approach], {{Call_Sign_Full}}, VFR request.",
       "applies_to": [
         "vfr_nontowered",
         "vfr_towered"
@@ -1598,7 +1598,7 @@
       "group": "ff_cold_call_response",
       "sequence": 2,
       "comm_type": "atc_response",
-      "text": "{{Call_Sign_Full}}, [Center] Approach, say request.",
+      "text": "{{Call_Sign_Full}}, [Center/Approach], say request.",
       "applies_to": [
         "vfr_nontowered",
         "vfr_towered"
@@ -1793,7 +1793,7 @@
       "group": "handoff",
       "sequence": 15,
       "comm_type": "atc_response",
-      "text": "{{Call_Sign_Abbr}}, contact [Next Center] Approach on [###.##].",
+      "text": "{{Call_Sign_Abbr}}, contact [Next Center/Approach] on [###.##].",
       "applies_to": [
         "vfr_nontowered",
         "vfr_towered"
@@ -1823,7 +1823,7 @@
       "group": "handoff_checkin",
       "sequence": 17,
       "comm_type": "radio",
-      "text": "[Next Center] Approach, {{Call_Sign_Full}}, level [Altitude].",
+      "text": "[Next Center/Approach], {{Call_Sign_Full}}, level [Altitude].",
       "applies_to": [
         "vfr_nontowered",
         "vfr_towered"

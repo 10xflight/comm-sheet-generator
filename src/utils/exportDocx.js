@@ -7,6 +7,43 @@ import { saveAs } from 'file-saver';
 import { subVars } from './callSign';
 import { parseTaxiRoute } from './taxiParser';
 
+// Parse text and create TextRuns with [brackets] bold
+function parseTextWithBrackets(text, baseStyle = {}) {
+  const runs = [];
+  const regex = /\[([^\]]+)\]/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    // Add text before the bracket
+    if (match.index > lastIndex) {
+      runs.push(new TextRun({ text: text.slice(lastIndex, match.index), ...baseStyle }));
+    }
+    // Add the bracketed text (bold)
+    runs.push(new TextRun({ text: `[${match[1]}]`, ...baseStyle, bold: true }));
+    lastIndex = regex.lastIndex;
+  }
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    runs.push(new TextRun({ text: text.slice(lastIndex), ...baseStyle }));
+  }
+
+  return runs.length > 0 ? runs : [new TextRun({ text, ...baseStyle })];
+}
+
+// Format date as "Feb 6, 2026"
+function formatDate(date) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Format date for filename as "Feb-6-2026"
+function formatDateForFilename(date) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]}-${date.getDate()}-${date.getFullYear()}`;
+}
+
 export async function exportToDocx({ callSign, flightRules, route, blockInstances, calls, hidden, hiddenBlocks, vars, abbr }) {
   const visible = calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block));
   const byBlockKey = visible.reduce((acc, c) => {
@@ -16,34 +53,32 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
   }, {});
 
   const children = [];
-  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '_') || 'untitled'}_${new Date().toISOString().slice(0, 10)}`;
+  const today = new Date();
 
-  // Title
+  // Build route string for filename (KBED-KPWM-KBED)
+  const routeIds = route.map(s => s.airport?.id || '???').join('-');
+  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
+
+  // Header: N12345 | VFR | KBED → KPWM → KBED | Feb 6, 2026
+  const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
+  const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
+
   children.push(new Paragraph({
-    children: [new TextRun({ text: `COMM SHEET: ${callSign || '[Call Sign]'}`, bold: true, size: 32, font: 'Calibri' })],
-    spacing: { after: 100 },
+    children: [new TextRun({ text: headerText, bold: true, size: 28, font: 'Calibri' })],
+    spacing: { after: 0 },
   }));
 
-  // Flight info
-  const depApt = route.find(s => s.type === 'dep')?.airport;
-  const arrApt = route.find(s => s.type === 'arr')?.airport;
-  const infoLines = [
-    `Flight Rules: ${flightRules.toUpperCase()}`,
-    `Route: ${route.map(s => s.airport?.id || '???').join(' → ')}`,
-    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
-    `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
-  ];
-  infoLines.forEach(line => {
-    children.push(new Paragraph({
-      children: [new TextRun({ text: line, size: 20, font: 'Calibri', color: '555555' })],
-      spacing: { after: 40 },
-    }));
-  });
+  // Empty line after header
+  children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
 
+  // Divider line
   children.push(new Paragraph({
     border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '333333' } },
-    spacing: { after: 200 },
+    spacing: { after: 0 },
   }));
+
+  // Empty line after divider
+  children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
 
   // Blocks
   blockInstances.forEach(inst => {
@@ -52,13 +87,16 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
 
     const label = inst.contextLabel ? `${inst.name} ${inst.contextLabel}` : inst.name;
 
+    // Empty line before block
+    children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
+
     // Block header
     children.push(new Paragraph({
       children: [
         new TextRun({ text: label, bold: true, size: 24, font: 'Calibri' }),
         new TextRun({ text: `  (${inst.target || ''})`, size: 18, font: 'Calibri', color: '888888' }),
       ],
-      spacing: { before: 240, after: 80 },
+      spacing: { after: 0 },
       border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' } },
     }));
 
@@ -66,29 +104,30 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
     blockCalls.forEach(call => {
       const callVars = call._legVars || vars;
       let text = subVars(call.text || '', callVars);
-      // Remove markup brackets for clean text
-      text = text.replace(/\[([^\]]+)\]/g, '[$1]');
 
-      // Add spacing between different groups (no line, just breathing room)
+      // Check if new group (needs extra space)
       const isNewGroup = prevCall && (
         (call.group && prevCall.group && call.group !== prevCall.group) ||
         (call.group && !prevCall.group) ||
         (!call.group && prevCall.group)
       );
-      // Store whether this call needs extra space before it
-      const needsGroupSpace = isNewGroup;
       prevCall = call;
+
+      // Add empty line between groups
+      if (isNewGroup) {
+        children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
+      }
 
       if (call.isTaxiBrief && call.taxiRoutes?.length) {
         children.push(new Paragraph({
-          children: [new TextRun({ text, bold: true, size: 20, font: 'Calibri' })],
-          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
+          children: parseTextWithBrackets(text, { bold: true, size: 20, font: 'Calibri' }),
+          spacing: { after: 0 },
         }));
         call.taxiRoutes.filter(r => r.runway && r.route).forEach(r => {
           children.push(new Paragraph({
             children: [new TextRun({ text: `    RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, size: 20, font: 'Calibri', color: '333333' })],
             indent: { left: 360 },
-            spacing: { before: 0, after: 0 },
+            spacing: { after: 0 },
           }));
         });
         return;
@@ -96,43 +135,41 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
 
       if (call.type === 'atc') {
         children.push(new Paragraph({
-          children: [new TextRun({ text, italics: true, size: 20, font: 'Calibri', color: '777777' })],
+          children: parseTextWithBrackets(text, { italics: true, size: 20, font: 'Calibri', color: '777777' }),
           alignment: AlignmentType.RIGHT,
           indent: { left: 4320 },
-          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
+          spacing: { after: 0 },
         }));
       } else if (call.type === 'note') {
         children.push(new Paragraph({
           children: [
             new TextRun({ text: 'NOTE ', bold: true, size: 18, font: 'Calibri', color: '999999' }),
-            new TextRun({ text, size: 20, font: 'Calibri', color: '333333' }),
+            ...parseTextWithBrackets(text, { size: 20, font: 'Calibri', color: '333333' }),
           ],
-          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
+          spacing: { after: 0 },
         }));
       } else if (call.type === 'brief') {
         // Multi-line briefs
         const lines = text.split('\n');
         lines.forEach((line, i) => {
+          const baseStyle = i === 0
+            ? { bold: true, size: 20, font: 'Calibri', color: '333333' }
+            : { size: 20, font: 'Calibri', color: '555555' };
+
           children.push(new Paragraph({
             children: [
-              new TextRun({
-                text: i === 0 ? line : `    ${line}`,
-                bold: i === 0,
-                size: 20,
-                font: 'Calibri',
-                color: i === 0 ? '333333' : '555555',
-              }),
+              ...parseTextWithBrackets(i === 0 ? line : `    ${line}`, baseStyle),
               ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 16, font: 'Calibri', color: 'CC8800' })] : []),
             ],
-            spacing: { before: (i === 0 && needsGroupSpace) ? 200 : 0, after: 0 },
+            spacing: { after: 0 },
             border: i === 0 ? { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'EEEEEE' } } : undefined,
           }));
         });
       } else {
         // Radio call
         children.push(new Paragraph({
-          children: [new TextRun({ text, size: 22, font: 'Calibri' })],
-          spacing: { before: needsGroupSpace ? 200 : 0, after: 0 },
+          children: parseTextWithBrackets(text, { size: 22, font: 'Calibri' }),
+          spacing: { after: 0 },
         }));
       }
     });
@@ -150,8 +187,6 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           children: [
             new Paragraph({
               children: [
-                new TextRun({ text: fileName, size: 14, font: 'Calibri', color: 'AAAAAA' }),
-                new TextRun({ text: '    ', size: 14 }),
                 new TextRun({ children: [PageNumber.CURRENT], size: 14, font: 'Calibri', color: 'AAAAAA' }),
                 new TextRun({ text: ' of ', size: 14, font: 'Calibri', color: 'AAAAAA' }),
                 new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, font: 'Calibri', color: 'AAAAAA' }),
