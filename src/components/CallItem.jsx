@@ -267,12 +267,12 @@ export default function CallItem({
           }`}
         >
           {isNote && <span className="text-slate-400 font-medium mr-2 text-xs uppercase tracking-wide bg-slate-100 px-2 py-0.5 rounded">NOTE</span>}
-          {call._hasOverride && <span className="text-amber-500 text-[10px] font-medium bg-amber-50 px-1.5 py-0.5 rounded mr-2">modified</span>}
           {call.text ? (
             <span dangerouslySetInnerHTML={{ __html: renderText() }} />
           ) : (
             <span className="text-slate-300 italic">Click to edit...</span>
           )}
+          {call._hasOverride && <span className="text-amber-500 text-[10px] font-medium bg-amber-50 px-1.5 py-0.5 rounded ml-2">modified</span>}
         </div>
 
         {!isAtc && (
