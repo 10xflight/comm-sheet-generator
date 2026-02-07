@@ -114,8 +114,8 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
     // Block header
     children.push(new Paragraph({
       children: [
-        new TextRun({ text: label, bold: true, size: 24, font: 'Calibri' }),
-        new TextRun({ text: `  (${inst.target || ''})`, size: 18, font: 'Calibri', color: '888888' }),
+        new TextRun({ text: label, bold: true, size: 28, font: 'Calibri' }),
+        new TextRun({ text: `  (${inst.target || ''})`, size: 22, font: 'Calibri', color: '888888' }),
       ],
       spacing: { after: 0 },
       border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' } },
@@ -164,7 +164,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
       } else if (call.type === 'note') {
         children.push(new Paragraph({
           children: [
-            new TextRun({ text: 'NOTE ', bold: true, size: 18, font: 'Calibri', color: '999999' }),
+            new TextRun({ text: 'NOTE ', bold: true, size: 22, font: 'Calibri', color: '999999' }),
             ...parseTextWithBrackets(text, { size: 22, font: 'Calibri', color: '333333' }),
           ],
           spacing: { after: 0 },
@@ -180,7 +180,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           children.push(new Paragraph({
             children: [
               ...parseTextWithBrackets(i === 0 ? line : `    ${line}`, baseStyle),
-              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 18, font: 'Calibri', color: 'CC8800' })] : []),
+              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 22, font: 'Calibri', color: 'CC8800' })] : []),
             ],
             spacing: { after: 0 },
             border: i === 0 ? { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'EEEEEE' } } : undefined,

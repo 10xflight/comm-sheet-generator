@@ -119,12 +119,12 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
 
     // Block header
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
+    doc.setFontSize(14);
     doc.setTextColor(30);
     doc.text(label, marginL, y);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
+    doc.setFontSize(11);
     doc.setTextColor(140);
     const targetW = doc.getTextWidth(inst.target || '');
     doc.text(inst.target || '', pageW - marginR - targetW, y);
@@ -181,7 +181,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         y += lines.length * 13;
       } else if (call.type === 'note') {
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
+        doc.setFontSize(11);
         doc.setTextColor(120);
         doc.text('NOTE ', marginL, y);
         const noteW = doc.getTextWidth('NOTE ');
