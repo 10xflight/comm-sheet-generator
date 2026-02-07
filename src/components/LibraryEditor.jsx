@@ -13,8 +13,7 @@ import {
   getUserBlocks, addUserBlock, updateUserBlock, deleteUserBlock,
   getBlockSeqOverrides, setBlockSeqOverrides,
 } from '../data/userStore';
-import { exportToPdf } from '../utils/exportPdf';
-import { exportToDocx } from '../utils/exportDocx';
+import ExportModal from './ExportModal';
 import { subVars } from '../utils/callSign';
 import { getSpacingClass } from '../utils/spacing';
 import { saveAs } from 'file-saver';
@@ -83,7 +82,7 @@ export default function LibraryEditor() {
   const [blockSeqOvr, setBlockSeqOvrState] = useState(() => getBlockSeqOverrides());
   const [showKey, setShowKey] = useState(() => localStorage.getItem('csg_showRefKey') === 'true');
   const [showRestoreConfirm, setShowRestoreConfirm] = useState(false);
-  const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showExport, setShowExport] = useState(false);
   const [addedToSheet, setAddedToSheet] = useState(null);
   // Block editing - inline on click
   const [editingBlockId, setEditingBlockId] = useState(null);
@@ -830,8 +829,8 @@ export default function LibraryEditor() {
     return blockCalls.some(c => matchesFilter(c) && matchesSearch(c, blockId));
   });
 
-  // Export full library
-  const exportFullLibrary = (format) => {
+  // Get export data for library
+  const getExportData = () => {
     const allBlockIds = [...BLOCK_ORDER, ...userBlocks.map(ub => ub.id)];
     const instances = allBlockIds.map(blockId => ({
       key: blockId,
@@ -845,7 +844,7 @@ export default function LibraryEditor() {
       _blockKey: c.block,
       id: `${c.id}_lib`,
     }));
-    const data = {
+    return {
       callSign: 'Full Library',
       flightRules: 'all',
       route: [],
@@ -856,8 +855,6 @@ export default function LibraryEditor() {
       vars: {},
       abbr: '',
     };
-    if (format === 'pdf') exportToPdf(data);
-    else exportToDocx(data);
   };
 
   // Render a block (shared between standard, custom, and user-saved blocks)
@@ -1274,17 +1271,9 @@ export default function LibraryEditor() {
               <button onClick={toggleDefault} className={`px-3 py-2 text-xs rounded-xl font-medium flex items-center gap-1 ${isDefault ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`} title={isDefault ? 'Current library is saved as default. Click to clear.' : 'Set current library state as default'}>
                 <Star size={12} /> {isDefault ? 'Default Set' : 'Set as Default'}
               </button>
-              <div className="relative">
-                <button onClick={() => setShowExportMenu(!showExportMenu)} className="px-3 py-2 text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl font-medium flex items-center gap-1">
-                  <Download size={12} /> Export Library
-                </button>
-                {showExportMenu && (
-                  <div className="absolute right-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-20">
-                    <button onClick={() => { exportFullLibrary('pdf'); setShowExportMenu(false); }} className="w-full px-4 py-2.5 text-xs text-left hover:bg-blue-50">Export as PDF</button>
-                    <button onClick={() => { exportFullLibrary('docx'); setShowExportMenu(false); }} className="w-full px-4 py-2.5 text-xs text-left hover:bg-blue-50">Export as DOCX</button>
-                  </div>
-                )}
-              </div>
+              <button onClick={() => setShowExport(true)} className="px-3 py-2 text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl font-medium flex items-center gap-1">
+                <Download size={12} /> Export Library
+              </button>
               <button onClick={() => setShowRestoreConfirm(true)} className="px-3 py-2 text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-xl font-medium flex items-center gap-1">
                 <RotateCcw size={12} /> Restore Defaults
               </button>
@@ -1428,6 +1417,9 @@ export default function LibraryEditor() {
             </button>
           )}
         </div>
+
+        {/* Export Modal */}
+        {showExport && <ExportModal exportData={getExportData()} onClose={() => setShowExport(false)} />}
       </div>
     </div>
   );

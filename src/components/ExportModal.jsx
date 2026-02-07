@@ -4,11 +4,14 @@ import { exportToDocx } from '../utils/exportDocx';
 import { exportToPdf } from '../utils/exportPdf';
 
 export default function ExportModal({ exportData, onClose }) {
+  const isLibraryExport = !exportData.route || exportData.route.length === 0;
+  const title = isLibraryExport ? 'Export Library' : 'Export Comm Sheet';
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-80">
         <div className="flex items-center justify-between p-4 border-b border-slate-200">
-          <h3 className="font-bold text-lg text-slate-800">Export Comm Sheet</h3>
+          <h3 className="font-bold text-lg text-slate-800">{title}</h3>
           <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg">
             <X size={20} />
           </button>

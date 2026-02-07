@@ -55,42 +55,52 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
   const children = [];
   const today = new Date();
 
-  // Build route string for filename (KBED-KPWM-KBED)
-  const routeIds = route.map(s => s.airport?.id || '???').join('-');
-  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
+  // Build filename
+  const isLibraryExportForName = !route || route.length === 0;
+  const routeIds = isLibraryExportForName ? '' : route.map(s => s.airport?.id || '???').join('-');
+  const fileName = isLibraryExportForName
+    ? `RadioCallsLibrary_${formatDateForFilename(today)}`
+    : `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
+
+  // Check if this is a library export (no route)
+  const isLibraryExport = !route || route.length === 0;
 
   // Header text for page header
-  const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
-  const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
+  const routeArrows = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join(' → ');
+  const headerText = isLibraryExport
+    ? `${callSign || 'Radio Calls Library'} | ${formatDate(today)}`
+    : `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
-  const depApt = route.find(s => s.type === 'dep')?.airport;
-  const arrApt = route.find(s => s.type === 'arr')?.airport;
+  const depApt = route?.find(s => s.type === 'dep')?.airport;
+  const arrApt = route?.find(s => s.type === 'arr')?.airport;
 
   // Title
   children.push(new Paragraph({
-    children: [new TextRun({ text: `COMM SHEET: ${callSign || '[Call Sign]'}`, bold: true, size: 32, font: 'Calibri' })],
+    children: [new TextRun({ text: isLibraryExport ? 'RADIO CALLS LIBRARY' : `COMM SHEET: ${callSign || '[Call Sign]'}`, bold: true, size: 32, font: 'Calibri' })],
     spacing: { after: 0 },
   }));
 
   // Empty line
   children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
 
-  // Flight info
-  const infoLines = [
-    `Flight Rules: ${flightRules.toUpperCase()}`,
-    `Route: ${routeArrows}`,
-    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
-    `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
-  ];
-  infoLines.forEach(line => {
-    children.push(new Paragraph({
-      children: [new TextRun({ text: line, size: 22, font: 'Calibri', color: '555555' })],
-      spacing: { after: 0 },
-    }));
-  });
+  // Flight info (only for comm sheets, not library exports)
+  if (!isLibraryExport) {
+    const infoLines = [
+      `Flight Rules: ${flightRules.toUpperCase()}`,
+      `Route: ${routeArrows}`,
+      `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
+      `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
+    ];
+    infoLines.forEach(line => {
+      children.push(new Paragraph({
+        children: [new TextRun({ text: line, size: 22, font: 'Calibri', color: '555555' })],
+        spacing: { after: 0 },
+      }));
+    });
 
-  // Empty line
-  children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
+    // Empty line
+    children.push(new Paragraph({ children: [], spacing: { after: 0 } }));
+  }
 
   // Divider line
   children.push(new Paragraph({

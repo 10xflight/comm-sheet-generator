@@ -77,16 +77,23 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
 
   const today = new Date();
 
-  // Build route string for filename (KBED-KPWM-KBED)
-  const routeIds = route.map(s => s.airport?.id || '???').join('-');
-  const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
+  // Check if this is a library export (no route)
+  const isLibraryExport = !route || route.length === 0;
+
+  // Build filename
+  const routeIds = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join('-');
+  const fileName = isLibraryExport
+    ? `RadioCallsLibrary_${formatDateForFilename(today)}`
+    : `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
   // Header text for page header (pages 2+) - use dash for font compatibility
-  const routeArrows = route.map(s => s.airport?.id || '???').join(' - ');
-  const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
+  const routeArrows = isLibraryExport ? '' : route.map(s => s.airport?.id || '???').join(' - ');
+  const headerText = isLibraryExport
+    ? `${callSign || 'Radio Calls Library'} | ${formatDate(today)}`
+    : `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
-  const depApt = route.find(s => s.type === 'dep')?.airport;
-  const arrApt = route.find(s => s.type === 'arr')?.airport;
+  const depApt = route?.find(s => s.type === 'dep')?.airport;
+  const arrApt = route?.find(s => s.type === 'arr')?.airport;
 
   const checkPage = (needed = 40) => {
     if (y + needed > pageH - 60) {
@@ -99,29 +106,31 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(0);
-  doc.text(`COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
+  doc.text(isLibraryExport ? 'RADIO CALLS LIBRARY' : `COMM SHEET: ${callSign || '[Call Sign]'}`, marginL, y);
   y += 20;
 
   // Empty line
   y += 14;
 
-  // Flight info - 11pt gray
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(85);
-  const info = [
-    `Flight Rules: ${flightRules.toUpperCase()}`,
-    `Route: ${routeArrows}`,
-    `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
-    `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
-  ];
-  info.forEach(line => {
-    doc.text(line, marginL, y);
-    y += 14;
-  });
+  // Flight info - 11pt gray (only for comm sheets, not library exports)
+  if (!isLibraryExport) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.setTextColor(85);
+    const info = [
+      `Flight Rules: ${flightRules.toUpperCase()}`,
+      `Route: ${routeArrows}`,
+      `Departure: ${depApt?.name || '???'} (${depApt?.towered ? 'Towered' : 'Non-Towered'})`,
+      `Arrival: ${arrApt?.name || '???'} (${arrApt?.towered ? 'Towered' : 'Non-Towered'})`,
+    ];
+    info.forEach(line => {
+      doc.text(line, marginL, y);
+      y += 14;
+    });
 
-  // Empty line
-  y += 14;
+    // Empty line
+    y += 14;
+  }
 
   // Divider
   doc.setDrawColor(51);
