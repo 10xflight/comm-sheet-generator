@@ -81,8 +81,8 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   const routeIds = route.map(s => s.airport?.id || '???').join('-');
   const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
-  // Header text for page header (pages 2+) - use > instead of → for font compatibility
-  const routeArrows = route.map(s => s.airport?.id || '???').join(' > ');
+  // Header text for page header (pages 2+) - use dash for font compatibility
+  const routeArrows = route.map(s => s.airport?.id || '???').join(' - ');
   const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
   const depApt = route.find(s => s.type === 'dep')?.airport;
