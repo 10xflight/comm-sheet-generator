@@ -14,6 +14,49 @@ function formatDateForFilename(date) {
   return `${months[date.getMonth()]}-${date.getDate()}-${date.getFullYear()}`;
 }
 
+// Render a line of text with [brackets] bold, returns the y position after rendering
+function renderTextWithBoldBrackets(doc, text, x, y, maxWidth, fontSize, isItalic = false) {
+  doc.setFontSize(fontSize);
+
+  // First, wrap the entire text to see if it fits
+  const fullLines = doc.splitTextToSize(text, maxWidth);
+
+  if (fullLines.length === 1) {
+    // Single line - render with bold brackets inline
+    const regex = /\[([^\]]+)\]/g;
+    let lastIndex = 0;
+    let currentX = x;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      // Render text before bracket
+      if (match.index > lastIndex) {
+        const beforeText = text.slice(lastIndex, match.index);
+        doc.setFont('helvetica', isItalic ? 'italic' : 'normal');
+        doc.text(beforeText, currentX, y);
+        currentX += doc.getTextWidth(beforeText);
+      }
+      // Render bracketed text bold
+      const bracketText = `[${match[1]}]`;
+      doc.setFont('helvetica', isItalic ? 'bolditalic' : 'bold');
+      doc.text(bracketText, currentX, y);
+      currentX += doc.getTextWidth(bracketText);
+      lastIndex = regex.lastIndex;
+    }
+    // Render remaining text
+    if (lastIndex < text.length) {
+      doc.setFont('helvetica', isItalic ? 'italic' : 'normal');
+      doc.text(text.slice(lastIndex), currentX, y);
+    }
+    return y + 14;
+  } else {
+    // Multi-line - just render normally (bold brackets too complex for wrapped text)
+    doc.setFont('helvetica', isItalic ? 'italic' : 'normal');
+    doc.text(fullLines, x, y);
+    return y + fullLines.length * 14;
+  }
+}
+
 export function exportToPdf({ callSign, flightRules, route, blockInstances, calls, hidden, hiddenBlocks, vars, abbr }) {
   const visible = calls.filter(c => !hidden.has(c.id) && !hiddenBlocks.has(c._blockKey || c.block));
   const byBlockKey = visible.reduce((acc, c) => {
@@ -60,12 +103,12 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   y += 20;
 
   // Empty line
-  y += 11;
+  y += 14;
 
-  // Flight info - 11pt
+  // Flight info - 11pt gray
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(11);
-  doc.setTextColor(85, 85, 85);
+  doc.setTextColor(85);
   const info = [
     `Flight Rules: ${flightRules.toUpperCase()}`,
     `Route: ${routeArrows}`,
@@ -78,16 +121,16 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   });
 
   // Empty line
-  y += 11;
+  y += 14;
 
   // Divider
-  doc.setDrawColor(51, 51, 51);
+  doc.setDrawColor(51);
   doc.setLineWidth(0.75);
   doc.line(marginL, y, pageW - marginR, y);
   y += 14;
 
   // Empty line after divider
-  y += 11;
+  y += 14;
 
   blockInstances.forEach(inst => {
     const blockCalls = byBlockKey[inst.key];
@@ -96,7 +139,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     checkPage(60);
 
     // Empty line before block
-    y += 11;
+    y += 14;
 
     const label = inst.contextLabel ? `${inst.name} ${inst.contextLabel}` : inst.name;
 
@@ -106,17 +149,17 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     doc.setTextColor(0);
     doc.text(label, marginL, y);
 
-    // Target frequency - 11pt right-aligned
+    // Target frequency - 11pt right-aligned gray
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
-    doc.setTextColor(136, 136, 136);
+    doc.setTextColor(136);
     const targetText = `(${inst.target || ''})`;
     const targetW = doc.getTextWidth(targetText);
     doc.text(targetText, pageW - marginR - targetW, y);
     y += 4;
 
     // Light underline
-    doc.setDrawColor(204, 204, 204);
+    doc.setDrawColor(204);
     doc.setLineWidth(0.25);
     doc.line(marginL, y, pageW - marginR, y);
     y += 14;
@@ -133,7 +176,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         (!call.group && prevCall.group)
       );
       if (isNewGroup) {
-        y += 11; // Empty line between groups
+        y += 14; // Empty line between groups
       }
       prevCall = call;
 
@@ -147,7 +190,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         y += lines.length * 14 + 4;
 
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(51, 51, 51);
+        doc.setTextColor(51);
         call.taxiRoutes.filter(r => r.runway && r.route).forEach(r => {
           checkPage(14);
           doc.text(`    RWY ${r.runway}: ${parseTaxiRoute(r.route, abbr)}`, marginL, y);
@@ -161,7 +204,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         // ATC - italic, right-aligned, gray
         doc.setFont('helvetica', 'italic');
         doc.setFontSize(11);
-        doc.setTextColor(119, 119, 119);
+        doc.setTextColor(119);
         const atcMaxW = contentW * 0.6;
         const lines = doc.splitTextToSize(text, atcMaxW);
         const textW = Math.max(...lines.map(l => doc.getTextWidth(l)));
@@ -171,11 +214,11 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         // Note - NOTE prefix bold gray, text normal
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(11);
-        doc.setTextColor(153, 153, 153);
+        doc.setTextColor(153);
         doc.text('NOTE ', marginL, y);
         const noteW = doc.getTextWidth('NOTE ');
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(51, 51, 51);
+        doc.setTextColor(51);
         const lines = doc.splitTextToSize(text, contentW - noteW);
         if (lines.length > 0) {
           doc.text(lines[0], marginL + noteW, y);
@@ -186,21 +229,23 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
         }
         y += 14;
       } else if (call.type === 'brief') {
-        // Brief - first line bold with "(Modify as Needed)", rest indented
+        // Brief - first line bold with "(Modify as Needed)" in gray, rest indented
         const briefLines = text.split('\n');
         briefLines.forEach((line, i) => {
           checkPage(14);
           doc.setFontSize(11);
           if (i === 0) {
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(51, 51, 51);
-            const displayLine = `${line} (Modify as Needed)`;
-            const wrapped = doc.splitTextToSize(displayLine, contentW);
-            doc.text(wrapped, marginL, y);
-            y += wrapped.length * 14;
+            doc.setTextColor(51);
+            doc.text(line, marginL, y);
+            const lineW = doc.getTextWidth(line);
+            doc.setFont('helvetica', 'italic');
+            doc.setTextColor(102);
+            doc.text(' (Modify as Needed)', marginL + lineW, y);
+            y += 14;
           } else {
             doc.setFont('helvetica', 'normal');
-            doc.setTextColor(85, 85, 85);
+            doc.setTextColor(85);
             const displayLine = `    ${line}`;
             const wrapped = doc.splitTextToSize(displayLine, contentW);
             doc.text(wrapped, marginL, y);
@@ -208,13 +253,9 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
           }
         });
       } else {
-        // Radio call - normal text, 11pt
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
+        // Radio call - render with bold brackets
         doc.setTextColor(0);
-        const lines = doc.splitTextToSize(text, contentW);
-        doc.text(lines, marginL, y);
-        y += lines.length * 14;
+        y = renderTextWithBoldBrackets(doc, text, marginL, y, contentW, 11);
       }
     });
   });
@@ -228,7 +269,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     if (i > 1) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(11);
-      doc.setTextColor(136, 136, 136);
+      doc.setTextColor(136);
       const headerW = doc.getTextWidth(headerText);
       doc.text(headerText, (pageW - headerW) / 2, 30);
     }
@@ -236,7 +277,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     // Footer - page numbers centered
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
-    doc.setTextColor(170, 170, 170);
+    doc.setTextColor(170);
     const pageText = `${i} of ${totalPages}`;
     const pageTextW = doc.getTextWidth(pageText);
     doc.text(pageText, (pageW - pageTextW) / 2, footerY);

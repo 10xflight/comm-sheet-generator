@@ -170,7 +170,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           spacing: { after: 0 },
         }));
       } else if (call.type === 'brief') {
-        // Multi-line briefs - all at size 22 (11pt)
+        // Multi-line briefs - all at size 22 (11pt), no color on "(Modify as Needed)"
         const lines = text.split('\n');
         lines.forEach((line, i) => {
           const baseStyle = i === 0
@@ -180,7 +180,7 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
           children.push(new Paragraph({
             children: [
               ...parseTextWithBrackets(i === 0 ? line : `    ${line}`, baseStyle),
-              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 22, font: 'Calibri', color: 'CC8800' })] : []),
+              ...(i === 0 ? [new TextRun({ text: ' (Modify as Needed)', italics: true, size: 22, font: 'Calibri', color: '666666' })] : []),
             ],
             spacing: { after: 0 },
             border: i === 0 ? { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'EEEEEE' } } : undefined,
@@ -204,6 +204,11 @@ export async function exportToDocx({ callSign, flightRules, route, blockInstance
         },
       },
       headers: {
+        // Empty header for first page
+        first: new Header({
+          children: [],
+        }),
+        // Header for pages 2+
         default: new Header({
           children: [
             new Paragraph({
