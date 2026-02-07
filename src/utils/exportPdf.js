@@ -81,8 +81,8 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
   const routeIds = route.map(s => s.airport?.id || '???').join('-');
   const fileName = `CommSheet_${callSign?.replace(/\s+/g, '') || 'untitled'}_${flightRules.toUpperCase()}_${routeIds}_${formatDateForFilename(today)}`;
 
-  // Header text for page header (pages 2+)
-  const routeArrows = route.map(s => s.airport?.id || '???').join(' → ');
+  // Header text for page header (pages 2+) - use > instead of → for font compatibility
+  const routeArrows = route.map(s => s.airport?.id || '???').join(' > ');
   const headerText = `${callSign || '[Call Sign]'} | ${flightRules.toUpperCase()} | ${routeArrows} | ${formatDate(today)}`;
 
   const depApt = route.find(s => s.type === 'dep')?.airport;
@@ -270,8 +270,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(11);
       doc.setTextColor(136);
-      const headerW = doc.getTextWidth(headerText);
-      doc.text(headerText, (pageW - headerW) / 2, 30);
+      doc.text(headerText, pageW / 2, 30, { align: 'center' });
     }
 
     // Footer - page numbers centered
@@ -279,8 +278,7 @@ export function exportToPdf({ callSign, flightRules, route, blockInstances, call
     doc.setFontSize(11);
     doc.setTextColor(170);
     const pageText = `${i} of ${totalPages}`;
-    const pageTextW = doc.getTextWidth(pageText);
-    doc.text(pageText, (pageW - pageTextW) / 2, footerY);
+    doc.text(pageText, pageW / 2, footerY, { align: 'center' });
   }
 
   doc.save(`${fileName}.pdf`);
