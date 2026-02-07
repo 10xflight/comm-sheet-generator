@@ -1459,20 +1459,6 @@
       "notes": "Pop-up IFR - VFR pilot needs clearance due to weather"
     },
     {
-      "call_id": "CLIMBOUT_001",
-      "block": "climbout",
-      "group": "placeholder",
-      "sequence": 1,
-      "comm_type": "ics",
-      "text": "[No standard calls for VFR non-towered climbout]",
-      "applies_to": [
-        "vfr_nontowered"
-      ],
-      "expand_per_runway": false,
-      "source": "",
-      "reference_url": null
-    },
-    {
       "call_id": "CLIMBOUT_IFR_001",
       "block": "climbout",
       "group": "climb_reports",
